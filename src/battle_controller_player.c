@@ -24,6 +24,8 @@
 #include "constants/songs.h"
 #include "constants/sound.h"
 
+#include "graphics.h"
+
 static void PlayerHandleGetMonData(void);
 static void PlayerHandleSetMonData(void);
 static void PlayerHandleSetRawMonData(void);
@@ -1399,16 +1401,56 @@ static void MoveSelectionDisplayPpNumber(void)
     BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_PP_REMAINING);
 }
 
+#define SUPER_EFFECTIVE_COLOURS 0
+#define NOT_VERY_EFFECTIVE_COLOURS 4
+#define NO_EFFECT_COLOURS 8
+#define REGULAR_COLOURS 12
 static void MoveSelectionDisplayMoveType(void)
 {
     u8 *txtPtr;
     struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleBufferA[gActiveBattler][4]);
 
+    u8 targetId = GetBattlerAtPosition(BATTLE_OPPOSITE(GetBattlerPosition(gActiveBattler)));
+    u16 move = moveInfo->moves[gMoveSelectionCursor[gActiveBattler]];
+    const u16 *palPtr = gBattleInterface_TypeEffectiveness_Pal;
+
+    // Show type effectiveness only for moves that have power
+    if (gBattleMoves[move].power) {
+
+        u8 moveFlags = AI_TypeCalc(move, gBattleMons[targetId].species, gBattleMons[targetId].ability);
+        u8 moveType = gBattleMoves[move].type;
+        u8 stab = 0;
+
+        if (moveType == gSpeciesInfo[gBattleMons[gActiveBattler].species].types[0] || moveType == gSpeciesInfo[gBattleMons[gActiveBattler].species].types[1]) {
+            stab = 2;
+        }
+
+        if (moveFlags & MOVE_RESULT_SUPER_EFFECTIVE) {
+            gPlttBufferUnfaded[0x58] = palPtr[SUPER_EFFECTIVE_COLOURS + stab + 0];
+            gPlttBufferUnfaded[0x59] = palPtr[SUPER_EFFECTIVE_COLOURS + stab + 1];
+        } else if (moveFlags & MOVE_RESULT_NOT_VERY_EFFECTIVE ) {
+            gPlttBufferUnfaded[0x58] = palPtr[NOT_VERY_EFFECTIVE_COLOURS + stab + 0];
+            gPlttBufferUnfaded[0x59] = palPtr[NOT_VERY_EFFECTIVE_COLOURS + stab + 1];
+        } else if (moveFlags & MOVE_RESULT_NO_EFFECT) {
+            gPlttBufferUnfaded[0x58] = palPtr[NO_EFFECT_COLOURS + 0];
+            gPlttBufferUnfaded[0x59] = palPtr[NO_EFFECT_COLOURS + 1];
+        } else {
+            gPlttBufferUnfaded[0x58] = palPtr[REGULAR_COLOURS + stab + 0];
+            gPlttBufferUnfaded[0x59] = palPtr[REGULAR_COLOURS + stab + 1];
+        }
+    } else {
+        gPlttBufferUnfaded[0x58] = palPtr[REGULAR_COLOURS + 0];
+        gPlttBufferUnfaded[0x59] = palPtr[REGULAR_COLOURS + 1];
+    }
+
+    CpuCopy16(&gPlttBufferUnfaded[0x58], &gPlttBufferFaded[0x58], sizeof(u16));
+	CpuCopy16(&gPlttBufferUnfaded[0x59], &gPlttBufferFaded[0x59], sizeof(u16));
+
     txtPtr = StringCopy(gDisplayedStringBattle, gText_MoveInterfaceType);
     *txtPtr++ = EXT_CTRL_CODE_BEGIN;
     *txtPtr++ = 6;
     *txtPtr++ = 1;
-    txtPtr = StringCopy(txtPtr, gText_MoveInterfaceDynamicColors);
+    txtPtr = StringCopy(txtPtr, gText_MoveInterfaceTypeEffectiveness);
     StringCopy(txtPtr, gTypeNames[gBattleMoves[moveInfo->moves[gMoveSelectionCursor[gActiveBattler]]].type]);
     BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_MOVE_TYPE);
 }
