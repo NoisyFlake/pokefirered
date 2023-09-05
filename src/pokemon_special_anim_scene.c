@@ -1494,68 +1494,84 @@ void DrawLevelUpWindowPg1(u16 windowId, u16 *beforeStats, u16 *afterStats, u8 bg
 {
     s16 diffStats[6];
     u8 textbuf[12];
+    u8 textbuf2[12];
     u8 textColor[3];
     u16 i;
     u8 x;
 
     FillWindowPixelBuffer(windowId, PIXEL_FILL(bgColor));
 
-    diffStats[0] = afterStats[0] - beforeStats[0];
-    diffStats[1] = afterStats[1] - beforeStats[1];
-    diffStats[2] = afterStats[2] - beforeStats[2];
-    diffStats[3] = afterStats[4] - beforeStats[4];
-    diffStats[4] = afterStats[5] - beforeStats[5];
-    diffStats[5] = afterStats[3] - beforeStats[3];
+    // diffStats[0] = afterStats[0] - beforeStats[0];
+    // diffStats[1] = afterStats[1] - beforeStats[1];
+    // diffStats[2] = afterStats[2] - beforeStats[2];
+    // diffStats[3] = afterStats[4] - beforeStats[4];
+    // diffStats[4] = afterStats[5] - beforeStats[5];
+    // diffStats[5] = afterStats[3] - beforeStats[3];
 
     textColor[0] = bgColor;
     textColor[1] = fgColor;
     textColor[2] = shadowColor;
 
-    for (i = 0; i < 6; i++)
+    for (i = 0; i < PARTY_SIZE; i++)
     {
-        AddTextPrinterParameterized3(windowId, FONT_NORMAL, 0, i * 15, textColor, TEXT_SKIP_DRAW, sLevelUpWindowStatNames[i]);
-        StringCopy(textbuf, diffStats[i] >= 0 ? gText_LevelUp_Plus : gText_LevelUp_Minus);
-        AddTextPrinterParameterized3(windowId, FONT_NORMAL, 56, i * 15, textColor, TEXT_SKIP_DRAW, textbuf);
-        textbuf[0] = CHAR_SPACE;
-        x = abs(diffStats[i]) < 10 ? 12 : 6;
-        ConvertIntToDecimalStringN(textbuf + 1, abs(diffStats[i]), STR_CONV_MODE_LEFT_ALIGN, 2);
-        AddTextPrinterParameterized3(windowId, FONT_NORMAL, x + 56, i * 15, textColor, TEXT_SKIP_DRAW, textbuf);
+        GetMonData(&gPlayerParty[i], MON_DATA_NICKNAME, textbuf);
+        AddTextPrinterParameterized3(windowId, FONT_SMALL, 0, i * 15, textColor, TEXT_SKIP_DRAW, textbuf);
+        // monLevel = GetMonData(&gPlayerParty[i], MON_DATA_LEVEL);
+        // if (monLevel) {
+            ConvertIntToDecimalStringN(textbuf2, beforeStats[i], STR_CONV_MODE_LEFT_ALIGN, 3);
+            AddTextPrinterParameterized3(windowId, FONT_SMALL, 56, i * 15, textColor, TEXT_SKIP_DRAW, textbuf2);
+        // }
     }
 }
 
-void DrawLevelUpWindowPg2(u16 windowId, u16 *currStats, u8 bgColor, u8 fgColor, u8 shadowColor)
+void DrawLevelUpWindowPg2(u16 windowId, u16 *beforeStats, u8 bgColor, u8 fgColor, u8 shadowColor)
 {
     s16 statsRearrange[6];
     u8 textbuf[12];
+    u8 textbuf2[12];
     u8 textColor[3];
+    u8 highlightColor[3];
     u16 i;
     u8 ndigits;
     u16 x;
+    u16 monLevel;
 
     FillWindowPixelBuffer(windowId, PIXEL_FILL(bgColor));
 
-    statsRearrange[0] = currStats[0];
-    statsRearrange[1] = currStats[1];
-    statsRearrange[2] = currStats[2];
-    statsRearrange[3] = currStats[4];
-    statsRearrange[4] = currStats[5];
-    statsRearrange[5] = currStats[3];
+    // statsRearrange[0] = currStats[0];
+    // statsRearrange[1] = currStats[1];
+    // statsRearrange[2] = currStats[2];
+    // statsRearrange[3] = currStats[4];
+    // statsRearrange[4] = currStats[5];
+    // statsRearrange[5] = currStats[3];
 
     textColor[0] = bgColor;
     textColor[1] = fgColor;
     textColor[2] = shadowColor;
 
-    for (i = 0; i < 6; i++)
+    highlightColor[0] = bgColor;
+    highlightColor[1] = TEXT_COLOR_BLUE;
+    highlightColor[2] = shadowColor;
+
+    for (i = 0; i < PARTY_SIZE; i++)
     {
-        if (statsRearrange[i] >= 100)
-            ndigits = 3;
-        else if (statsRearrange[i] >= 10)
-            ndigits = 2;
-        else
-            ndigits = 1;
-        ConvertIntToDecimalStringN(textbuf, statsRearrange[i], STR_CONV_MODE_LEFT_ALIGN, ndigits);
-        x = 6 * (4 - ndigits);
-        AddTextPrinterParameterized3(windowId, FONT_NORMAL, 0, i * 15, textColor, TEXT_SKIP_DRAW, sLevelUpWindowStatNames[i]);
-        AddTextPrinterParameterized3(windowId, FONT_NORMAL, 56 + x, i * 15, textColor, TEXT_SKIP_DRAW, textbuf);
+        // if (statsRearrange[i] >= 100)
+        //     ndigits = 3;
+        // else if (statsRearrange[i] >= 10)
+        //     ndigits = 2;
+        // else
+        //     ndigits = 1;
+        // ConvertIntToDecimalStringN(textbuf, statsRearrange[i], STR_CONV_MODE_LEFT_ALIGN, ndigits);
+        // x = 6 * (4 - ndigits);
+        // AddTextPrinterParameterized3(windowId, FONT_NORMAL, 0, i * 15, textColor, TEXT_SKIP_DRAW, sLevelUpWindowStatNames[i]);
+        GetMonData(&gPlayerParty[i], MON_DATA_NICKNAME, textbuf);
+        AddTextPrinterParameterized3(windowId, FONT_SMALL, 0, i * 15, textColor, TEXT_SKIP_DRAW, textbuf);
+
+        monLevel = GetMonData(&gPlayerParty[i], MON_DATA_LEVEL);
+        if (monLevel) {
+            ConvertIntToDecimalStringN(textbuf2, monLevel, STR_CONV_MODE_LEFT_ALIGN, 3);
+            DebugPrintf("WAS: %d, IS: %d", beforeStats[i], monLevel);
+            AddTextPrinterParameterized3(windowId, FONT_SMALL, 56, i * 15, monLevel > beforeStats[i] ? highlightColor : textColor, TEXT_SKIP_DRAW, textbuf2);
+        }
     }
 }
