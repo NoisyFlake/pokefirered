@@ -3276,13 +3276,6 @@ static void Cmd_getexp(void)
             
             if (GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_HP) && GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_LEVEL) != MAX_LEVEL)
             {
-                // gBattleResources->beforeLvlUp->stats[STAT_HP]    = GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_MAX_HP);
-                // gBattleResources->beforeLvlUp->stats[STAT_ATK]   = GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_ATK);
-                // gBattleResources->beforeLvlUp->stats[STAT_DEF]   = GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_DEF);
-                // gBattleResources->beforeLvlUp->stats[STAT_SPEED] = GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_SPEED);
-                // gBattleResources->beforeLvlUp->stats[STAT_SPATK] = GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_SPATK);
-                // gBattleResources->beforeLvlUp->stats[STAT_SPDEF] = GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_SPDEF);
-
                 gActiveBattler = gBattleStruct->expGetterBattlerId;
                 BtlController_EmitExpUpdate(BUFFER_A, gBattleStruct->expGetterMonId, gBattleMoveDamage);
                 MarkBattlerForControllerExec(gActiveBattler);
@@ -3299,12 +3292,7 @@ static void Cmd_getexp(void)
                 if (gBattleTypeFlags & BATTLE_TYPE_TRAINER && gBattlerPartyIndexes[gActiveBattler] == gBattleStruct->expGetterMonId)
                     HandleLowHpMusicChange(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], gActiveBattler);
 
-                PREPARE_MON_NICK_WITH_PREFIX_BUFFER(gBattleTextBuff1, gActiveBattler, gBattleStruct->expGetterMonId);
-                PREPARE_BYTE_NUMBER_BUFFER(gBattleTextBuff2, 3, GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_LEVEL));
-
-                BattleScriptPushCursor();
                 gLeveledUpInBattle |= gBitTable[gBattleStruct->expGetterMonId];
-                gBattlescriptCurrInstr = BattleScript_LevelUp;
                 gBattleMoveDamage = (gBattleBufferB[gActiveBattler][2] | (gBattleBufferB[gActiveBattler][3] << 8));
                 AdjustFriendship(&gPlayerParty[gBattleStruct->expGetterMonId], FRIENDSHIP_EVENT_GROW_LEVEL);
 
@@ -3376,6 +3364,7 @@ static void Cmd_getexp(void)
               | BATTLE_TYPE_SAFARI
               | BATTLE_TYPE_EREADER_TRAINER)))
             {
+                // lvlupbox will also handle move learn script
                 Cmd_drawlvlupbox();
             } else {
                 gBattlescriptCurrInstr += 2;
@@ -5118,6 +5107,7 @@ static void Cmd_handlelearnnewmove(void)
 
     if (learnMove == MOVE_NONE)
     {
+        gBattleStruct->expGetterMonId++;
         gBattlescriptCurrInstr = nothingToLearnPtr;
     }
     else if (learnMove == MON_HAS_MAX_MOVES)
@@ -5672,10 +5662,12 @@ static void Cmd_atknameinbuff1(void)
 
 static void Cmd_drawlvlupbox(void)
 {
-    DebugPrintf("State is %d", gBattleScripting.drawlvlupboxState);
+    u8 i;
+
     if (gBattleScripting.drawlvlupboxState == 0)
     {
-            gBattleScripting.drawlvlupboxState = 3;
+        gBattleStruct->expGetterMonId = 0;
+        gBattleScripting.drawlvlupboxState = 3;
     }
 
     switch (gBattleScripting.drawlvlupboxState)
@@ -5731,10 +5723,12 @@ static void Cmd_drawlvlupbox(void)
         break;
     case 8:
         // If the mon did level up, we're displaying a message that the user has to click away, so we don't need to wait for input here as well
-        if (gMain.newKeys != 0 || gBattleScripting.monDidLvlUp)
+        if (gMain.newKeys != 0 || gLeveledUpInBattle)
         {
+            if (!gLeveledUpInBattle) 
+                PlaySE(SE_SELECT);
+
             // Close level up box
-            PlaySE(SE_SELECT);
             HandleBattleWindow(17, 7, 29, 19, WINDOW_BG1 | WINDOW_CLEAR);
             gBattleScripting.drawlvlupboxState++;
         }
@@ -5761,8 +5755,18 @@ static void Cmd_drawlvlupbox(void)
             SetBgAttribute(1, BG_ATTR_PRIORITY, 1);
             ShowBg(0);
             ShowBg(1);
-            gBattleScripting.drawlvlupboxState = 0;
-            gBattlescriptCurrInstr++;
+                
+            if (gBattleStruct->expGetterMonId < PARTY_SIZE) {
+                // expGetterMonId will be increased inside BattleScript_LevelUp
+                GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_NICKNAME, gBattleTextBuff1);
+
+                // Push the CurrInstr onto the stack, so that we can return to here from the LevelUp script
+                BattleScriptPushCursor();
+                gBattlescriptCurrInstr = BattleScript_LevelUp;
+            } else {
+                gBattleScripting.drawlvlupboxState = 0;
+                gBattlescriptCurrInstr++;
+            }
         }
         break;
     }

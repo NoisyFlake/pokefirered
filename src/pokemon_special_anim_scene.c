@@ -1548,8 +1548,6 @@ void DrawLevelUpWindowPg2(u16 windowId, u16 *oldLevel, u8 bgColor, u8 fgColor, u
     u8 ndigits;
     u8 monLevel;
 
-    gBattleScripting.monDidLvlUp = FALSE;
-
     FillWindowPixelBuffer(windowId, PIXEL_FILL(bgColor));
 
     textColor[0] = bgColor;
@@ -1578,7 +1576,6 @@ void DrawLevelUpWindowPg2(u16 windowId, u16 *oldLevel, u8 bgColor, u8 fgColor, u
                 textbuf[0] = CHAR_UP_ARROW;
                 textbuf[1] = EOS;
                 AddTextPrinterParameterized3(windowId, FONT_SMALL, 50 + x, i * 15, textColor, TEXT_SKIP_DRAW, textbuf);
-                gBattleScripting.monDidLvlUp = TRUE;
             }
 
             textbuf[0] = CHAR_LV;
@@ -1587,7 +1584,7 @@ void DrawLevelUpWindowPg2(u16 windowId, u16 *oldLevel, u8 bgColor, u8 fgColor, u
         }
     }
 
-    if (gBattleScripting.monDidLvlUp) {
+    if (gLeveledUpInBattle) {
         PrepareStringBattle(STRINGID_PKMNGREWTOLV, 0);
         PlayFanfare(FANFARE_LEVEL_UP);
     }
