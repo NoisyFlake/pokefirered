@@ -3172,10 +3172,21 @@ static void Cmd_getexp(void)
             gBattleStruct->expGetterMonId = 0;
             gBattleStruct->sentInPokes = sentIn;
 
+            // music change in wild battle after fainting a poke
+            if (!(gBattleTypeFlags & (BATTLE_TYPE_TRAINER | BATTLE_TYPE_POKEDUDE)) && gBattleMons[0].hp != 0 && !gBattleStruct->wildVictorySong && !gBattleScripting.monCaught)
+            {
+                BattleStopLowHpSound();
+                PlayBGM(MUS_VICTORY_WILD);
+                // gBattleStruct->wildVictorySong++;
+            }
+
+            // Clear beforeLvlUp entries so we don't have old values in there
+            gBattleResources->beforeLvlUp = AllocZeroed(sizeof(*gBattleResources->beforeLvlUp));
+
             PrepareStringBattle(STRINGID_PKMNGAINEDEXP, 0);
         }
         // fall through
-    case 2: // set exp value to the poke in expgetter_id and print message
+    case 2: // set exp value to the poke in expgetter_id
         if (gBattleControllerExecFlags == 0)
         {
             double levelAdjustment;
@@ -3195,13 +3206,6 @@ static void Cmd_getexp(void)
             }
             else
             {
-                // music change in wild battle after fainting a poke
-                if (!(gBattleTypeFlags & (BATTLE_TYPE_TRAINER | BATTLE_TYPE_POKEDUDE)) && gBattleMons[0].hp != 0 && !gBattleStruct->wildVictorySong && !gBattleScripting.monCaught)
-                {
-                    BattleStopLowHpSound();
-                    PlayBGM(MUS_VICTORY_WILD);
-                    gBattleStruct->wildVictorySong++;
-                }
 
                 if (GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_HP))
                 {
@@ -3250,7 +3254,11 @@ static void Cmd_getexp(void)
                     }
 
                     MonGainEVs(&gPlayerParty[gBattleStruct->expGetterMonId], gBattleMons[gBattlerFainted].species);
+                } else {
+                    // Mon is fainted, no Exp
+                    gBattleMoveDamage = 0;
                 }
+                
                 gBattleStruct->sentInPokes >>= 1;
                 gBattleScripting.getexpState++;
             }
@@ -3264,11 +3272,8 @@ static void Cmd_getexp(void)
             if (!gBattleResources->beforeLvlUp->exp[gBattleStruct->expGetterMonId]) {
                 gBattleResources->beforeLvlUp->exp[gBattleStruct->expGetterMonId]  = gBattleMoveDamage;
                 gBattleResources->beforeLvlUp->level[gBattleStruct->expGetterMonId]  = GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_LEVEL);
-                DebugPrintf("Setting level to: %d", gBattleResources->beforeLvlUp->level[gBattleStruct->expGetterMonId]);
             }
             
-            
-
             if (GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_HP) && GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_LEVEL) != MAX_LEVEL)
             {
                 // gBattleResources->beforeLvlUp->stats[STAT_HP]    = GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_MAX_HP);
@@ -3360,22 +3365,23 @@ static void Cmd_getexp(void)
     case 6: // increment instruction
         if (gBattleControllerExecFlags == 0)
         {
-                
-                // PREPARE_MON_NICK_WITH_PREFIX_BUFFER(gBattleTextBuff1, gActiveBattler, gBattleStruct->expGetterMonId);
-                // PREPARE_BYTE_NUMBER_BUFFER(gBattleTextBuff2, 3, GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_LEVEL));
-                // DebugPrintf("State is %d", gBattleScripting.drawlvlupboxState);
-                // BattleScriptPushCursor();
-                // gBattlescriptCurrInstr++;
-                // gLeveledUpInBattle |= gBitTable[gBattleStruct->expGetterMonId];
-                // gBattleScripting.drawlvlupboxState = 0;
-                Cmd_drawlvlupbox();
-
-                // gBattlescriptCurrInstr = BattleScript_ShowLevelUpBox;
-
             // not sure why gf clears the item and ability here
             gBattleMons[gBattlerFainted].item = ITEM_NONE;
             gBattleMons[gBattlerFainted].ability = ABILITY_NONE;
-            // gBattlescriptCurrInstr += 2;
+
+            if (GetBattlerSide(gBattlerFainted) == B_SIDE_OPPONENT && !(gBattleTypeFlags &
+             (BATTLE_TYPE_LINK
+              | BATTLE_TYPE_TRAINER_TOWER
+              | BATTLE_TYPE_BATTLE_TOWER
+              | BATTLE_TYPE_SAFARI
+              | BATTLE_TYPE_EREADER_TRAINER)))
+            {
+                Cmd_drawlvlupbox();
+            } else {
+                gBattlescriptCurrInstr += 2;
+            }
+
+            
         }
         break;
     }
@@ -5666,6 +5672,7 @@ static void Cmd_atknameinbuff1(void)
 
 static void Cmd_drawlvlupbox(void)
 {
+    DebugPrintf("State is %d", gBattleScripting.drawlvlupboxState);
     if (gBattleScripting.drawlvlupboxState == 0)
     {
             gBattleScripting.drawlvlupboxState = 3;
@@ -5693,7 +5700,7 @@ static void Cmd_drawlvlupbox(void)
         SetBgAttribute(1, BG_ATTR_PRIORITY, 0);
         ShowBg(0);
         ShowBg(1);
-        HandleBattleWindow(18, 7, 29, 19, WINDOW_BG1);
+        HandleBattleWindow(17, 7, 29, 19, WINDOW_BG1);
         gBattleScripting.drawlvlupboxState = 4;
         break;
     case 4:
@@ -5723,11 +5730,12 @@ static void Cmd_drawlvlupbox(void)
         }
         break;
     case 8:
-        if (gMain.newKeys != 0)
+        // If the mon did level up, we're displaying a message that the user has to click away, so we don't need to wait for input here as well
+        if (gMain.newKeys != 0 || gBattleScripting.monDidLvlUp)
         {
             // Close level up box
             PlaySE(SE_SELECT);
-            HandleBattleWindow(18, 7, 29, 19, WINDOW_BG1 | WINDOW_CLEAR);
+            HandleBattleWindow(17, 7, 29, 19, WINDOW_BG1 | WINDOW_CLEAR);
             gBattleScripting.drawlvlupboxState++;
         }
         break;
@@ -5762,17 +5770,11 @@ static void Cmd_drawlvlupbox(void)
 
 static void DrawLevelUpWindow1(void)
 {
-    u16 currStats[NUM_STATS];
-
-    GetMonLevelUpWindowStats(&gPlayerParty[gBattleStruct->expGetterMonId], currStats);
-    DrawLevelUpWindowPg1(B_WIN_LEVEL_UP_BOX, gBattleResources->beforeLvlUp->exp, currStats, TEXT_DYNAMIC_COLOR_5, TEXT_DYNAMIC_COLOR_4, TEXT_DYNAMIC_COLOR_6);
+    DrawLevelUpWindowPg1(B_WIN_LEVEL_UP_BOX, gBattleResources->beforeLvlUp->exp, TEXT_DYNAMIC_COLOR_5, TEXT_DYNAMIC_COLOR_4, TEXT_DYNAMIC_COLOR_6);
 }
 
 static void DrawLevelUpWindow2(void)
 {
-    u16 currStats[NUM_STATS];
-
-    GetMonLevelUpWindowStats(&gPlayerParty[gBattleStruct->expGetterMonId], currStats);
     DrawLevelUpWindowPg2(B_WIN_LEVEL_UP_BOX, gBattleResources->beforeLvlUp->level, TEXT_DYNAMIC_COLOR_5, TEXT_DYNAMIC_COLOR_4, TEXT_DYNAMIC_COLOR_6);
 }
 

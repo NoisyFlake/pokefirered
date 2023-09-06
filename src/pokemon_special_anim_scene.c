@@ -13,6 +13,11 @@
 #include "text_window.h"
 #include "trig.h"
 #include "constants/songs.h"
+#include "constants/sound.h"
+
+#include "battle.h"
+#include "constants/battle_string_ids.h"
+#include "battle_util.h"
 
 static void LoadBgGfxByAnimType(u16 animType);
 static void Task_ZoomAnim(u8 taskId);
@@ -613,7 +618,7 @@ bool8 PSA_LevelUpVerticalSpritesTaskIsRunning(void)
 void PSA_DrawLevelUpWindowPg1(u16 *statsBefore, u16 *statsAfter)
 {
     DrawTextBorderOuter(1, 0x001, 14);
-    DrawLevelUpWindowPg1(1, statsBefore, statsAfter, TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_LIGHT_GRAY);
+    DrawLevelUpWindowPg1(1, statsBefore, TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_LIGHT_GRAY);
     PutWindowTilemap(1);
     CopyWindowToVram(1, COPYWIN_FULL);
 }
@@ -1490,88 +1495,101 @@ static const u8 *const sLevelUpWindowStatNames[] = {
     gText_LevelUp_Speed
 };
 
-void DrawLevelUpWindowPg1(u16 windowId, u16 *beforeStats, u16 *afterStats, u8 bgColor, u8 fgColor, u8 shadowColor)
+void DrawLevelUpWindowPg1(u16 windowId, u16 *gainedExp, u8 bgColor, u8 fgColor, u8 shadowColor)
 {
-    s16 diffStats[6];
     u8 textbuf[12];
-    u8 textbuf2[12];
     u8 textColor[3];
+    u8 disabledColor[3];
     u16 i;
     u8 x;
+    u8 ndigits;
 
     FillWindowPixelBuffer(windowId, PIXEL_FILL(bgColor));
-
-    // diffStats[0] = afterStats[0] - beforeStats[0];
-    // diffStats[1] = afterStats[1] - beforeStats[1];
-    // diffStats[2] = afterStats[2] - beforeStats[2];
-    // diffStats[3] = afterStats[4] - beforeStats[4];
-    // diffStats[4] = afterStats[5] - beforeStats[5];
-    // diffStats[5] = afterStats[3] - beforeStats[3];
 
     textColor[0] = bgColor;
     textColor[1] = fgColor;
     textColor[2] = shadowColor;
+
+    disabledColor[0] = bgColor;
+    disabledColor[1] = shadowColor;
+    disabledColor[2] = TEXT_COLOR_TRANSPARENT;
 
     for (i = 0; i < PARTY_SIZE; i++)
     {
         GetMonData(&gPlayerParty[i], MON_DATA_NICKNAME, textbuf);
         AddTextPrinterParameterized3(windowId, FONT_SMALL, 0, i * 15, textColor, TEXT_SKIP_DRAW, textbuf);
-        // monLevel = GetMonData(&gPlayerParty[i], MON_DATA_LEVEL);
-        // if (monLevel) {
-            ConvertIntToDecimalStringN(textbuf2, beforeStats[i], STR_CONV_MODE_LEFT_ALIGN, 3);
-            AddTextPrinterParameterized3(windowId, FONT_SMALL, 56, i * 15, textColor, TEXT_SKIP_DRAW, textbuf2);
-        // }
+
+        if (strlen(textbuf) > 0) {
+            textbuf[0] = CHAR_PLUS;
+            ConvertIntToDecimalStringN(textbuf + 1, gainedExp[i], STR_CONV_MODE_LEFT_ALIGN, 4);
+
+            if (gainedExp[i] >= 1000)
+                ndigits = 4;
+            else if (gainedExp[i] >= 100)
+                ndigits = 3;
+            else if (gainedExp[i] >= 10)
+                ndigits = 2;
+            else
+                ndigits = 1;
+
+            x = 5 * (4 - ndigits);
+            
+            AddTextPrinterParameterized3(windowId, FONT_SMALL, 60 + x, i * 15, gainedExp[i] > 0 ? textColor : disabledColor, TEXT_SKIP_DRAW, textbuf);
+        }
     }
 }
 
-void DrawLevelUpWindowPg2(u16 windowId, u16 *beforeStats, u8 bgColor, u8 fgColor, u8 shadowColor)
+void DrawLevelUpWindowPg2(u16 windowId, u16 *oldLevel, u8 bgColor, u8 fgColor, u8 shadowColor)
 {
-    s16 statsRearrange[6];
     u8 textbuf[12];
-    u8 textbuf2[12];
     u8 textColor[3];
-    u8 highlightColor[3];
     u16 i;
+    u8 x;
     u8 ndigits;
-    u16 x;
-    u16 monLevel;
+    u8 monLevel;
+
+    gBattleScripting.monDidLvlUp = FALSE;
 
     FillWindowPixelBuffer(windowId, PIXEL_FILL(bgColor));
-
-    // statsRearrange[0] = currStats[0];
-    // statsRearrange[1] = currStats[1];
-    // statsRearrange[2] = currStats[2];
-    // statsRearrange[3] = currStats[4];
-    // statsRearrange[4] = currStats[5];
-    // statsRearrange[5] = currStats[3];
 
     textColor[0] = bgColor;
     textColor[1] = fgColor;
     textColor[2] = shadowColor;
 
-    highlightColor[0] = bgColor;
-    highlightColor[1] = TEXT_COLOR_BLUE;
-    highlightColor[2] = shadowColor;
-
     for (i = 0; i < PARTY_SIZE; i++)
     {
-        // if (statsRearrange[i] >= 100)
-        //     ndigits = 3;
-        // else if (statsRearrange[i] >= 10)
-        //     ndigits = 2;
-        // else
-        //     ndigits = 1;
-        // ConvertIntToDecimalStringN(textbuf, statsRearrange[i], STR_CONV_MODE_LEFT_ALIGN, ndigits);
-        // x = 6 * (4 - ndigits);
-        // AddTextPrinterParameterized3(windowId, FONT_NORMAL, 0, i * 15, textColor, TEXT_SKIP_DRAW, sLevelUpWindowStatNames[i]);
         GetMonData(&gPlayerParty[i], MON_DATA_NICKNAME, textbuf);
         AddTextPrinterParameterized3(windowId, FONT_SMALL, 0, i * 15, textColor, TEXT_SKIP_DRAW, textbuf);
 
         monLevel = GetMonData(&gPlayerParty[i], MON_DATA_LEVEL);
+
         if (monLevel) {
-            ConvertIntToDecimalStringN(textbuf2, monLevel, STR_CONV_MODE_LEFT_ALIGN, 3);
-            DebugPrintf("WAS: %d, IS: %d", beforeStats[i], monLevel);
-            AddTextPrinterParameterized3(windowId, FONT_SMALL, 56, i * 15, monLevel > beforeStats[i] ? highlightColor : textColor, TEXT_SKIP_DRAW, textbuf2);
+
+            if (monLevel >= 100)
+                ndigits = 3;
+            else if (monLevel >= 10)
+                ndigits = 2;
+            else
+                ndigits = 1;
+
+            x = 5 * (4 - ndigits);
+
+            if (monLevel > oldLevel[i]) {
+                textbuf[0] = CHAR_UP_ARROW;
+                textbuf[1] = EOS;
+                AddTextPrinterParameterized3(windowId, FONT_SMALL, 50 + x, i * 15, textColor, TEXT_SKIP_DRAW, textbuf);
+                gBattleScripting.monDidLvlUp = TRUE;
+            }
+
+            textbuf[0] = CHAR_LV;
+            ConvertIntToDecimalStringN(textbuf + 1, monLevel, STR_CONV_MODE_LEFT_ALIGN, 3);
+            AddTextPrinterParameterized3(windowId, FONT_SMALL, 60 + x, i * 15, textColor, TEXT_SKIP_DRAW, textbuf);
         }
     }
+
+    if (gBattleScripting.monDidLvlUp) {
+        PrepareStringBattle(STRINGID_PKMNGREWTOLV, 0);
+        PlayFanfare(FANFARE_LEVEL_UP);
+    }
+        
 }
