@@ -5107,7 +5107,13 @@ static void Cmd_handlelearnnewmove(void)
 
     if (learnMove == MOVE_NONE)
     {
-        gBattleStruct->expGetterMonId++;
+        // Only go to the next mon if the current mon has gone through every level that it gained
+        if (gBattleResources->beforeLvlUp->level[gBattleStruct->expGetterMonId] == GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_LEVEL, NULL)) {
+            gBattleStruct->expGetterMonId++;
+        } else {
+            gBattleResources->beforeLvlUp->level[gBattleStruct->expGetterMonId]++;
+        }
+        
         gBattlescriptCurrInstr = nothingToLearnPtr;
     }
     else if (learnMove == MON_HAS_MAX_MOVES)
