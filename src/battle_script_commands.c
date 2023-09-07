@@ -3364,8 +3364,27 @@ static void Cmd_getexp(void)
               | BATTLE_TYPE_SAFARI
               | BATTLE_TYPE_EREADER_TRAINER)))
             {
-                // lvlupbox will also handle move learn script
+                // This is the first time we're here, so reset expGetterMonId which will be looped later
+                if (gBattleScripting.drawlvlupboxState == 0) {
+                    gBattleStruct->expGetterMonId = 0;
+                }
+
                 Cmd_drawlvlupbox();
+
+                // The level up box has been closed, run move learn script for every pokemon
+                if (gBattleScripting.drawlvlupboxState == 10) {
+                    if (gBattleStruct->expGetterMonId < PARTY_SIZE) {
+                        // expGetterMonId will be increased inside BattleScript_LevelUp
+                        GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_NICKNAME, gBattleTextBuff1);
+
+                        // Push the CurrInstr onto the stack, so that we can return to here from the LevelUp script
+                        BattleScriptPushCursor();
+                        gBattlescriptCurrInstr = BattleScript_LevelUp;
+                    } else {
+                        gBattleScripting.drawlvlupboxState = 0;
+                        gBattlescriptCurrInstr += 2;
+                    }
+                }
             } else {
                 gBattlescriptCurrInstr += 2;
             }
@@ -5668,11 +5687,8 @@ static void Cmd_atknameinbuff1(void)
 
 static void Cmd_drawlvlupbox(void)
 {
-    u8 i;
-
     if (gBattleScripting.drawlvlupboxState == 0)
     {
-        gBattleStruct->expGetterMonId = 0;
         gBattleScripting.drawlvlupboxState = 3;
     }
 
@@ -5761,18 +5777,6 @@ static void Cmd_drawlvlupbox(void)
             SetBgAttribute(1, BG_ATTR_PRIORITY, 1);
             ShowBg(0);
             ShowBg(1);
-                
-            if (gBattleStruct->expGetterMonId < PARTY_SIZE) {
-                // expGetterMonId will be increased inside BattleScript_LevelUp
-                GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_NICKNAME, gBattleTextBuff1);
-
-                // Push the CurrInstr onto the stack, so that we can return to here from the LevelUp script
-                BattleScriptPushCursor();
-                gBattlescriptCurrInstr = BattleScript_LevelUp;
-            } else {
-                gBattleScripting.drawlvlupboxState = 0;
-                gBattlescriptCurrInstr += 2;
-            }
         }
         break;
     }
