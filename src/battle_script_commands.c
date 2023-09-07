@@ -5745,9 +5745,9 @@ static void Cmd_drawlvlupbox(void)
         break;
     case 8:
         // If the mon did level up, we're displaying a message that the user has to click away, so we don't need to wait for input here as well
-        if (gMain.newKeys != 0 || gLeveledUpInBattle)
+        if (gMain.newKeys != 0 || gBattleScripting.monDidLevelUp)
         {
-            if (!gLeveledUpInBattle) 
+            if (!gBattleScripting.monDidLevelUp) 
                 PlaySE(SE_SELECT);
 
             // Close level up box

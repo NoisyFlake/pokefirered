@@ -2291,7 +2291,7 @@ u16 MonTryLearningNewMove(struct Pokemon *mon, bool8 firstMove)
     u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
     u8 level = GetMonData(mon, MON_DATA_LEVEL, NULL);
 
-    if (gLeveledUpInBattle)
+    if (gBattleScripting.monDidLevelUp)
         level = gBattleResources->beforeLvlUp->level[gBattleStruct->expGetterMonId];
         
 
