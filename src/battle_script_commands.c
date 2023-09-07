@@ -5104,7 +5104,7 @@ static void Cmd_handlelearnnewmove(void)
     u16 learnMove = MonTryLearningNewMove(&gPlayerParty[gBattleStruct->expGetterMonId], gBattlescriptCurrInstr[9]);
     while (learnMove == MON_ALREADY_KNOWS_MOVE)
         learnMove = MonTryLearningNewMove(&gPlayerParty[gBattleStruct->expGetterMonId], FALSE);
-
+    
     if (learnMove == MOVE_NONE)
     {
         // Only go to the next mon if the current mon has gone through every level that it gained
@@ -5771,7 +5771,7 @@ static void Cmd_drawlvlupbox(void)
                 gBattlescriptCurrInstr = BattleScript_LevelUp;
             } else {
                 gBattleScripting.drawlvlupboxState = 0;
-                gBattlescriptCurrInstr++;
+                gBattlescriptCurrInstr += 2;
             }
         }
         break;
