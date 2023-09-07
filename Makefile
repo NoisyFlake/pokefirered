@@ -271,6 +271,11 @@ ifeq ($(DINFO),1)
 override CFLAGS += -g
 endif
 
+ifneq ($(DDEBUG),1)
+override ASFLAGS += --defsym NDEBUG=1
+override CPPFLAGS += -D NDEBUG=1
+endif
+
 $(C_BUILDDIR)/%.o : $(C_SUBDIR)/%.c $$(c_dep)
 	@$(CPP) $(CPPFLAGS) $< -o $(C_BUILDDIR)/$*.i
 	@$(PREPROC) $(C_BUILDDIR)/$*.i charmap.txt | $(CC1) $(CFLAGS) -o $(C_BUILDDIR)/$*.s

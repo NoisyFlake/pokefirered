@@ -31,6 +31,8 @@
 #include "constants/maps.h"
 #include "constants/metatile_behaviors.h"
 
+#include "debug.h"
+
 #define SIGNPOST_POKECENTER 0
 #define SIGNPOST_POKEMART 1
 #define SIGNPOST_INDIGO_1 2
@@ -153,6 +155,13 @@ void FieldGetPlayerInput(struct FieldInput *input, u16 newKeys, u16 heldKeys)
         else if (heldKeys & DPAD_RIGHT)
             input->dpadDirection = DIR_EAST;
     }
+
+#ifndef NDEBUG
+    if ((heldKeys & B_BUTTON) && input->pressedStartButton) {
+        input->input_field_1_2 = TRUE;
+        input->pressedStartButton = FALSE;
+    }
+#endif
 }
 
 static void QuestLogOverrideJoyVars(struct FieldInput *input, u16 *newKeys, u16 *heldKeys)
@@ -294,6 +303,14 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
         gFieldInputRecord.pressedSelectButton = TRUE;
         return TRUE;
     }
+
+#ifndef NDEBUG
+    if (input->input_field_1_2) {
+        PlaySE(SE_WIN_OPEN);
+        Debug_ShowMainMenu();
+        return TRUE;
+    }
+#endif
 
     return FALSE;
 }

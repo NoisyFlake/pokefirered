@@ -43,14 +43,14 @@
 #define FLAG_TEMP_1F     (TEMP_FLAGS_START + 0x1F)
 #define TEMP_FLAGS_END   FLAG_TEMP_1F
 
-#define FLAG_0x020               0x020
-#define FLAG_0x021               0x021
-#define FLAG_0x022               0x022
-#define FLAG_0x023               0x023
-#define FLAG_0x024               0x024
-#define FLAG_0x025               0x025
-#define FLAG_0x026               0x026
-#define FLAG_0x027               0x027
+#define FLAG_SYS_NO_COLLISION               0x020
+#define FLAG_0x021                          0x021
+#define FLAG_0x022                          0x022
+#define FLAG_0x023                          0x023
+#define FLAG_0x024                          0x024
+#define FLAG_0x025                          0x025
+#define FLAG_0x026                          0x026
+#define FLAG_0x027                          0x027
 
 // Hide/show flags
 #define FLAG_HIDE_BULBASAUR_BALL                           0x028
