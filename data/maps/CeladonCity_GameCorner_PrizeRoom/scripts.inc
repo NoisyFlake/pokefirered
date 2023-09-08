@@ -295,11 +295,19 @@ CeladonCity_GameCorner_PrizeRoom_EventScript_TM35::
 	buffermovename STR_VAR_2, MOVE_FLAMETHROWER
 	goto CeladonCity_GameCorner_PrizeRoom_EventScript_ConfirmPrizeTM
 	end
+	
 
 CeladonCity_GameCorner_PrizeRoom_EventScript_ConfirmPrizeTM::
+	checkitem VAR_TEMP_1, 1
+	goto_if_eq VAR_RESULT, TRUE, CeladonCity_GameCorner_PrizeRoom_EventScript_AlreadyHaveTM
 	msgbox CeladonCity_GameCorner_PrizeRoom_Text_YouWantTM, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, CeladonCity_GameCorner_PrizeRoom_EventScript_EndPrizeExchange
 	goto CeladonCity_GameCorner_PrizeRoom_EventScript_TryGivePrize
+	end
+
+CeladonCity_GameCorner_PrizeRoom_EventScript_AlreadyHaveTM::
+	msgbox gText_ShopAlreadyBought
+	goto CeladonCity_GameCorner_PrizeRoom_EventScript_ChoosePrizeTM
 	end
 
 CeladonCity_GameCorner_PrizeRoom_EventScript_ConfirmPrizeItem::
