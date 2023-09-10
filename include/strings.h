@@ -957,6 +957,7 @@ extern const u8 gText_ShopBuy[];
 extern const u8 gText_ShopSell[];
 extern const u8 gText_ShopQuit[];
 extern const u8 gText_ShopAlreadyBought[];
+extern const u8 gText_ShopAlreadyBoughtWait[];
 extern const u8 gText_ShopAlreadyBoughtEntry[];
 extern const u8 gText_AnythingElseICanHelp[];
 extern const u8 gText_QuitShopping[];

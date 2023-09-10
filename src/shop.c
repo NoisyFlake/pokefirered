@@ -899,7 +899,7 @@ static void Task_BuyMenu(u8 taskId)
             gShopData.itemPrice = ItemId_GetPrice(itemId);
             if (ItemId_GetPocket(itemId) == POCKET_TM_CASE && CheckBagHasItem(itemId, 1))
             {
-                BuyMenuDisplayMessage(taskId, gText_ShopAlreadyBought, BuyMenuReturnToItemList);
+                BuyMenuDisplayMessage(taskId, gText_ShopAlreadyBoughtWait, BuyMenuReturnToItemList);
             }
             else if (!IsEnoughMoney(&gSaveBlock1Ptr->money, gShopData.itemPrice))
             {
