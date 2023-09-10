@@ -6,6 +6,9 @@
 #include "text_window.h"
 #include "constants/songs.h"
 
+#include "constants/items.h"
+#include "item.h"
+
 struct Menu
 {
     u8 left;
@@ -463,9 +466,26 @@ void PrintTextArray(u8 windowId, u8 fontId, u8 left, u8 top, u8 lineHeight, u8 i
 void MultichoiceList_PrintItems(u8 windowId, u8 fontId, u8 left, u8 top, u8 lineHeight, u8 itemCount, const struct MenuAction *strs, u8 letterSpacing, u8 lineSpacing)
 {
     u8 i;
+    const u8 *text; 
 
-    for (i = 0; i < itemCount; i++)
-        AddTextPrinterParameterized5(windowId, fontId, strs[i].text, left, (lineHeight * i) + top, 0xFF, NULL, letterSpacing, lineSpacing);
+    for (i = 0; i < itemCount; i++) {
+        if (strs[i].text == gText_Tm13_4000Coins && CheckBagHasItem(ITEM_TM13, 1)) {
+            text = gText_Tm13_InBag;
+        } else if (strs[i].text == gText_Tm23_3500Coins && CheckBagHasItem(ITEM_TM23, 1)) {
+            text = gText_Tm23_InBag;
+        } else if (strs[i].text == gText_Tm24_4000Coins && CheckBagHasItem(ITEM_TM24, 1)) {
+            text = gText_Tm24_InBag;
+        } else if (strs[i].text == gText_Tm30_4500Coins && CheckBagHasItem(ITEM_TM30, 1)) {
+            text = gText_Tm30_InBag;
+        } else if (strs[i].text == gText_Tm35_4000Coins && CheckBagHasItem(ITEM_TM35, 1)) {
+            text = gText_Tm35_InBag;
+        } else {
+            text = strs[i].text;
+        }
+        
+        AddTextPrinterParameterized5(windowId, fontId, text, left, (lineHeight * i) + top, 0xFF, NULL, letterSpacing, lineSpacing);
+    }
+        
     CopyWindowToVram(windowId, COPYWIN_GFX);
 }
 
