@@ -1,3 +1,4 @@
+#undef NDEBUG
 #ifndef NDEBUG
 
 #include "global.h"
@@ -15,27 +16,49 @@
 #include "event_object_movement.h"
 #include "event_data.h"
 #include "script_pokemon_util.h"
+#include "constants/items.h"
+#include "item.h"
+#include "coins.h"
+#include "field_screen_effect.h"
+#include "money.h"
+#include "overworld.h"
+#include "event_scripts.h"
 
 #define DEBUG_MAIN_MENU_HEIGHT 7
-#define DEBUG_MAIN_MENU_WIDTH 12
+#define DEBUG_MAIN_MENU_WIDTH 14
 
 void Debug_ShowMainMenu(void);
 static void Debug_DestroyMainMenu(u8);
 static void DebugAction_Cancel(u8);
 static void DebugAction_Fly(u8);
+static void DebugAction_Flash(u8);
 static void DebugAction_Heal(u8);
 static void DebugAction_ToggleCollision(u8);
+static void DebugAction_GiveAllTMs(u8);
+static void DebugAction_GiveCoins(u8);
+static void DebugAction_GiveMoney(u8);
+static void DebugAction_ShowItemBox(u8);
 static void DebugTask_HandleMainMenuInput(u8);
 
 static const u8 gDebugText_Heal[] = _("Heal Party");
 static const u8 gDebugText_Fly[] = _("Fly");
+static const u8 gDebugText_Flash[] = _("Flash");
 static const u8 gDebugText_ToggleCollision[] = _("Collision ON/OFF");
+static const u8 gDebugText_GiveAllTMs[] = _("Give TM/HMs");
+static const u8 gDebugText_GiveCoins[] = _("Give 1000 Coins");
+static const u8 gDebugText_GiveMoney[] = _("Give 10000 Money");
+static const u8 gDebugText_ShowItemBox[] = _("Show Item Box");
 static const u8 gDebugText_Cancel[] = _("Cancel");
 
 enum {
     DEBUG_MENU_ITEM_HEAL,
     DEBUG_MENU_ITEM_FLY,
+    DEBUG_MENU_ITEM_FLASH,
     DEBUG_MENU_ITEM_TOGGLECOLLISION,
+    DEBUG_MENU_ITEM_GIVEALLTMS,
+    DEBUG_MENU_ITEM_GIVECOINS,
+    DEBUG_MENU_ITEM_GIVEMONEY,
+    DEBUG_MENU_ITEM_SHOWITEMBOX,
     DEBUG_MENU_ITEM_CANCEL,
 };
 
@@ -43,7 +66,12 @@ static const struct ListMenuItem sDebugMenuItems[] =
 {
     [DEBUG_MENU_ITEM_HEAL] = {gDebugText_Heal, DEBUG_MENU_ITEM_HEAL},
     [DEBUG_MENU_ITEM_FLY] = {gDebugText_Fly, DEBUG_MENU_ITEM_FLY},
+    [DEBUG_MENU_ITEM_FLASH] = {gDebugText_Flash, DEBUG_MENU_ITEM_FLASH},
     [DEBUG_MENU_ITEM_TOGGLECOLLISION] = {gDebugText_ToggleCollision, DEBUG_MENU_ITEM_TOGGLECOLLISION},
+    [DEBUG_MENU_ITEM_GIVEALLTMS] = {gDebugText_GiveAllTMs, DEBUG_MENU_ITEM_GIVEALLTMS},
+    [DEBUG_MENU_ITEM_GIVECOINS] = {gDebugText_GiveCoins, DEBUG_MENU_ITEM_GIVECOINS},
+    [DEBUG_MENU_ITEM_GIVEMONEY] = {gDebugText_GiveMoney, DEBUG_MENU_ITEM_GIVEMONEY},
+    [DEBUG_MENU_ITEM_SHOWITEMBOX] = {gDebugText_ShowItemBox, DEBUG_MENU_ITEM_SHOWITEMBOX},
     [DEBUG_MENU_ITEM_CANCEL] = {gDebugText_Cancel, DEBUG_MENU_ITEM_CANCEL}
 };
 
@@ -51,7 +79,12 @@ static void (*const sDebugMenuActions[])(u8) =
 {
     [DEBUG_MENU_ITEM_HEAL] = DebugAction_Heal,
     [DEBUG_MENU_ITEM_FLY] = DebugAction_Fly,
+    [DEBUG_MENU_ITEM_FLASH] = DebugAction_Flash,
     [DEBUG_MENU_ITEM_TOGGLECOLLISION] = DebugAction_ToggleCollision,
+    [DEBUG_MENU_ITEM_GIVEALLTMS] = DebugAction_GiveAllTMs,
+    [DEBUG_MENU_ITEM_GIVECOINS] = DebugAction_GiveCoins,
+    [DEBUG_MENU_ITEM_GIVEMONEY] = DebugAction_GiveMoney,
+    [DEBUG_MENU_ITEM_SHOWITEMBOX] = DebugAction_ShowItemBox,
     [DEBUG_MENU_ITEM_CANCEL] = DebugAction_Cancel
 };
 
@@ -120,7 +153,6 @@ static void Debug_DestroyMainMenu(u8 taskId)
     RemoveWindow(gTasks[taskId].data[1]);
     DestroyTask(taskId);
     UnfreezeObjectEvents();
-    // ScriptContext_Enable();
 }
 
 static void DebugTask_HandleMainMenuInput(u8 taskId)
@@ -152,8 +184,8 @@ static void DebugAction_Heal(u8 taskId)
 {
     PlaySE(SE_USE_ITEM);
     HealPlayerParty();
-    ScriptContext_Enable();
     Debug_DestroyMainMenu(taskId);
+    ScriptContext_Enable();
 }
 
 static void DebugAction_Fly(u8 taskId)
@@ -214,6 +246,17 @@ static void DebugAction_Fly(u8 taskId)
     SetMainCallback2(CB2_OpenFlyMap);
 }
 
+static void DebugAction_Flash(u8 taskId)
+{
+    PlaySE(SE_M_REFLECT);
+    FlagSet(FLAG_SYS_FLASH_ACTIVE);
+    AnimateFlash(0);
+    SetFlashLevel(0);
+
+    Debug_DestroyMainMenu(taskId);
+    ScriptContext_Enable();
+}
+
 static void DebugAction_ToggleCollision(u8 taskId)
 {
     if (FlagGet(FLAG_SYS_NO_COLLISION)) {
@@ -222,8 +265,37 @@ static void DebugAction_ToggleCollision(u8 taskId)
     } else {
         PlaySE(SE_PC_LOGIN);
         FlagSet(FLAG_SYS_NO_COLLISION);
-    }
-        
+    }   
+}
+
+static void DebugAction_GiveAllTMs(u8 taskId)
+{
+    u16 i;
+    PlayFanfare(MUS_OBTAIN_TMHM);
+    for (i = ITEM_TM01; i <= ITEM_HM08; i++)
+        if (!CheckBagHasItem(i, 1))
+            AddBagItem(i, 1);
+
+    Debug_DestroyMainMenu(taskId);
+    ScriptContext_Enable();
+}
+
+static void DebugAction_GiveCoins(u8 taskId)
+{
+    PlaySE(SE_USE_ITEM);
+    AddCoins(1000);
+}
+
+static void DebugAction_GiveMoney(u8 taskId)
+{
+    PlaySE(SE_USE_ITEM);
+    AddMoney(&gSaveBlock1Ptr->money, 10000);
+}
+
+static void DebugAction_ShowItemBox(u8 taskId) {
+    Debug_DestroyMainMenu(taskId);
+    gSpecialVar_0x800B = ITEM_TM01;
+    DrawHeaderBox();
 }
 
 #endif
