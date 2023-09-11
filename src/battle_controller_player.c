@@ -303,11 +303,34 @@ static void HandleInputChooseAction(void)
             PlaySE(SE_SELECT);
             BtlController_EmitTwoReturnValues(1, B_ACTION_CANCEL_PARTNER, 0);
             PlayerBufferExecCompleted();
+        } 
+        else if (!(gBattleTypeFlags & BATTLE_TYPE_TRAINER))
+        {
+            if (gActionSelectionCursor[gActiveBattler] == 3) {
+                BtlController_EmitTwoReturnValues(1, B_ACTION_RUN, 0);
+                PlayerBufferExecCompleted();
+            } else {
+                PlaySE(SE_SELECT);
+                ActionSelectionDestroyCursorAt(gActionSelectionCursor[gActiveBattler]);
+                gActionSelectionCursor[gActiveBattler] = 3;
+                ActionSelectionCreateCursorAt(gActionSelectionCursor[gActiveBattler], 0);
+            }
         }
     }
     else if (JOY_NEW(START_BUTTON))
     {
         SwapHpBarsWithHpText();
+    }
+    else if (JOY_NEW(SELECT_BUTTON))
+    {
+        // Open the Pokeballs bag in wild battles
+        if(!(gBattleTypeFlags & BATTLE_TYPE_TRAINER)) 
+        {
+            gBagMenuState.pocket = OPEN_BAG_POKEBALLS;
+            BtlController_EmitTwoReturnValues(1, B_ACTION_USE_ITEM, 0);
+            PlayerBufferExecCompleted();
+        }
+        
     }
 }
 
