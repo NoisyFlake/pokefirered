@@ -8,6 +8,7 @@ EventScript_RestorePrevTextColor::
 	return
 
 Std_ObtainItem::
+	copyvar VAR_0x800B, VAR_0x8000
 	copyvar VAR_PREV_TEXT_COLOR, VAR_TEXT_COLOR
 	textcolor NPC_TEXT_COLOR_NEUTRAL
 	additem VAR_0x8000, VAR_0x8001
@@ -60,9 +61,12 @@ EventScript_BufferBerryPouch::
 
 EventScript_ObtainedItem::
 	message Text_ObtainedTheX
+	delay 10
+	showitemdesc
 	waitfanfare
 	waitmessage
 	msgbox Text_PutItemAway
+	hideitemdesc
 	setvar VAR_RESULT, 1
 	return
 
@@ -107,6 +111,7 @@ Std_FindItem::
 	lock
 	faceplayer
 	waitse
+	copyvar VAR_0x800B, VAR_0x8000
 	copyvar VAR_0x8004, VAR_0x8000
 	copyvar VAR_0x8005, VAR_0x8001
 	checkitemspace VAR_0x8000, VAR_0x8001
@@ -122,13 +127,17 @@ Std_FindItem::
 EventScript_PickUpItem::
 	removeobject VAR_LAST_TALKED
 	additem VAR_0x8004, VAR_0x8005
+	copyvar VAR_0x800B VAR_0x8004
 	specialvar VAR_RESULT, BufferTMHMMoveName
 	copyvar VAR_0x8008, VAR_RESULT
 	call_if_eq VAR_0x8008, TRUE, EventScript_FoundTMHM
 	call_if_eq VAR_0x8008, FALSE, EventScript_FoundItem
+	delay 10
+	showitemdesc
 	waitfanfare
 	waitmessage
 	msgbox Text_PutItemAway
+	hideitemdesc
 	return
 
 EventScript_FoundTMHM::
@@ -156,6 +165,7 @@ EventScript_HiddenItemScript::
 	end
 
 EventScript_TryPickUpHiddenItem::
+	copyvar VAR_0x800B, VAR_0x8005
 	additem VAR_0x8005, VAR_0x8006
 	copyvar VAR_0x8007, VAR_RESULT
 	bufferitemname STR_VAR_2, VAR_0x8005
@@ -164,11 +174,14 @@ EventScript_TryPickUpHiddenItem::
 	return
 
 EventScript_PickedUpHiddenItem::
+	delay 10
+	showitemdesc
 	call_if_eq VAR_0x8006, 1, EventScript_FoundSingleItem
 	call_if_ne VAR_0x8006, 1, EventScript_FoundMultipleItems
 	waitfanfare
 	waitmessage
 	msgbox Text_PutItemAway
+	hideitemdesc
 	special SetHiddenItemFlag
 	releaseall
 	end

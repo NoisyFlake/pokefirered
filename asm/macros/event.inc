@@ -1633,6 +1633,18 @@
 	.2byte \quantity
 	.endm
 
+	.macro showdescription
+	.byte 0xd5
+	.endm
+
+	.macro showitemdesc
+	showdescription
+	.endm
+
+	.macro hideitemdesc
+	.byte 0xd6
+	.endm
+
 
 @ Supplementary
 

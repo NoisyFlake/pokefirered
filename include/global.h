@@ -12,6 +12,8 @@
 #include "constants/easy_chat.h"
 #include "constants/rgb.h"
 
+#include "constants/items.h"
+
 // Prevent cross-jump optimization.
 #define BLOCK_CROSS_JUMP asm("");
 
@@ -313,6 +315,8 @@ struct BattleTowerData // Leftover from R/S
     /*0x04D1, 0x0581*/ u8 filler_4D1[0x317];
 }; /* size = 0x7E8 */
 
+#define ITEM_FLAGS_COUNT ((ITEMS_COUNT / 8) + ((ITEMS_COUNT % 8) ? 1 : 0))
+
 struct SaveBlock2
 {
     /*0x000*/ u8 playerName[PLAYER_NAME_LENGTH + 1];
@@ -345,6 +349,7 @@ struct SaveBlock2
     /*0xB10*/ struct BerryPickingResults berryPick;
     /*0xB20*/ u8 filler_B20[0x400];
     /*0xF20*/ u32 encryptionKey;
+    u8 itemFlags[ITEM_FLAGS_COUNT];
 }; // size: 0xF24
 
 extern struct SaveBlock2 *gSaveBlock2Ptr;
