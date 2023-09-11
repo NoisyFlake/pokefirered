@@ -254,10 +254,15 @@ CeladonCity_DepartmentStore_Roof_EventScript_TryBuyDrink::
 	call_if_eq VAR_TEMP_1, 1, CeladonCity_DepartmentStore_Roof_EventScript_RemoveMoneySodaPop
 	call_if_eq VAR_TEMP_1, 2, CeladonCity_DepartmentStore_Roof_EventScript_RemoveMoneyLemonade
 	updatemoneybox
+	copyvar VAR_0x800B, VAR_TEMP_0
+	hidemoneybox
+	showitemdesc
 	bufferitemname STR_VAR_1, VAR_TEMP_0
 	playse SE_VEND
 	msgbox CeladonCity_DepartmentStore_Roof_Text_DrinkCanPoppedOut
 	additem VAR_TEMP_0
+	hideitemdesc
+	showmoneybox 0, 0
 	goto CeladonCity_DepartmentStore_Roof_EventScript_ChooseNewDrink
 	end
 

@@ -322,6 +322,8 @@ OneIsland_PokemonCenter_1F_EventScript_GiveRainbowPass::
 	removeitem ITEM_RUBY
 	removeitem ITEM_TRI_PASS
 	setvar VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 5
+	setorcopyvar VAR_0x800B, ITEM_RAINBOW_PASS
+	showitemdesc
 	additem ITEM_RAINBOW_PASS
 	setflag FLAG_SYS_SEVII_MAP_4567
 	textcolor NPC_TEXT_COLOR_NEUTRAL
@@ -329,6 +331,7 @@ OneIsland_PokemonCenter_1F_EventScript_GiveRainbowPass::
 	message OneIsland_PokemonCenter_1F_Text_ReturnedTriPassForRainbowPass
 	waitmessage
 	waitfanfare
+	hideitemdesc
 	playfanfare MUS_OBTAIN_KEY_ITEM
 	message OneIsland_PokemonCenter_1F_Text_ObtainedExtraMapPage
 	waitmessage

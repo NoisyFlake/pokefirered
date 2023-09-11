@@ -1822,9 +1822,12 @@
 	.macro msgreceiveditem msg:req, item:req, amount=1, fanfare=MUS_LEVEL_UP
 	loadword 0, \msg
 	setorcopyvar VAR_0x8000, \item
+	setorcopyvar VAR_0x800B, \item
 	setorcopyvar VAR_0x8001, \amount
 	setorcopyvar VAR_0x8002, \fanfare
+	showitemdesc
 	callstd STD_RECEIVED_ITEM
+	hideitemdesc
 	.endm
 
 	@ Adds the specified item to the bag, then prints a message with fanfare. See description of msgreceiveditem.

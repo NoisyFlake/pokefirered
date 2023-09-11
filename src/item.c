@@ -714,11 +714,22 @@ bool8 GetSetItemObtained(u16 item, u8 caseId)
     return FALSE;
 }
 
-static void ReformatItemDescription(u16 item, u8 *dest)
+static u8 countLines(const u8 *src) {
+    u8 numLines = 1;
+    u8 i;
+
+    for (i = 0; i < 0x100 && src[i] != EOS; i++)
+    {
+        if (src[i] == CHAR_NEWLINE)
+            numLines++;
+    }
+    return numLines;
+}
+
+static void ReformatItemDescription(const u8* desc, u8 *dest)
 {
     u8 count = 0;
     u8 maxChars = 26;
-    u8 *desc = (u8 *)ItemId_GetDescription(item);
 
     while (*desc != EOS)
     {
@@ -753,18 +764,19 @@ static void ReformatItemDescription(u16 item, u8 *dest)
     *dest = EOS;
 }
 
-#define ITEM_ICON_X 41
+#define ITEM_ICON_X 23
 #define ITEM_ICON_Y 31
 void DrawHeaderBox(void)
 {
     struct WindowTemplate template;
     u16 item = gSpecialVar_0x800B;
     u8 buffer[500];
-    u8 *dst = buffer;
+    u8 *dst;
+    const u8 *desc = ItemId_GetDescription(item);
     bool8 handleFlash = FALSE;
-    u8 numLines = 1;
+    u8 numLines;
     u8 textY;
-    u8 i;
+    u8 color[3];
 
     if (Overworld_GetFlashLevel() > 0)
         handleFlash = TRUE;
@@ -775,23 +787,30 @@ void DrawHeaderBox(void)
         return; //no box if item obtained previously
     }
 
-    template = SetWindowTemplateFields(0, 3, 1, 25, 5, 15, 8);
+    template = SetWindowTemplateFields(0, 1, 1, 28, 5, 15, 8);
     sHeaderBoxWindowId = AddWindow(&template);
     FillWindowPixelBuffer(sHeaderBoxWindowId, PIXEL_FILL(0));
     PutWindowTilemap(sHeaderBoxWindowId);
     CopyWindowToVram(sHeaderBoxWindowId, 3);
     SetStdWindowBorderStyle(sHeaderBoxWindowId, FALSE);
 
-    ReformatItemDescription(item, dst);
+    numLines = countLines(desc);
 
-    for (i = 0; i < 0x100 && dst[i] != EOS; i++)
-    {
-        if (dst[i] == CHAR_NEWLINE)
-            numLines++;
+    if (numLines > 3) {
+        // TM descriptions have 4 very short lines, reformat it to 2-3 lines
+        dst = buffer;
+        ReformatItemDescription(desc, dst);
+        numLines = countLines(dst);
+    } else {
+        dst = (u8 *)desc;
     }
 
+    color[0] = gFonts[FONT_NORMAL].bgColor;
+    color[1] = gFonts[FONT_NORMAL].fgColor;
+    color[2] = gFonts[FONT_NORMAL].shadowColor;
+
     ShowItemIconSprite(item, TRUE, handleFlash);
-    AddTextPrinterParameterized(sHeaderBoxWindowId, FONT_SMALL, dst, 32, 15 - numLines * 5, 0, NULL);
+    AddTextPrinterParameterized4(sHeaderBoxWindowId, FONT_NORMAL, 27, 15 - numLines * 5, 0, -1, color, 0, dst);
 }
 
 void HideHeaderBox(void)
@@ -832,7 +851,7 @@ static void ShowItemIconSprite(u16 item, bool8 firstTime, bool8 flash)
         if (!firstTime)
         {
             //show in message box
-            x = 213;
+            x = 218;
             y = 140;
         }
         else

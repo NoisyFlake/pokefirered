@@ -12,10 +12,13 @@ Route1_EventScript_MartClerk::
 	bufferitemname STR_VAR_2, ITEM_POTION
 	playfanfare MUS_LEVEL_UP
 	message Text_ObtainedTheX
+	setorcopyvar VAR_0x800B, ITEM_POTION
+	showitemdesc
 	waitmessage
 	waitfanfare
 	additem ITEM_POTION
 	msgbox Route1_Text_PutPotionAway
+	hideitemdesc
 	call EventScript_RestorePrevTextColor
 	setflag FLAG_GOT_POTION_ON_ROUTE_1
 	release
