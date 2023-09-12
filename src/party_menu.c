@@ -5070,7 +5070,7 @@ static void ItemUseCB_RareCandyStep(u8 taskId, TaskFunc func)
     StringExpandPlaceholders(gStringVar4, gText_PkmnElevatedToLvVar2);
     DisplayPartyMenuMessage(gStringVar4, TRUE);
     ScheduleBgCopyTilemapToVram(2);
-    gTasks[taskId].func = Task_DisplayLevelUpStatsPg1;
+    gTasks[taskId].func = Task_TryLearnNewMoves;
 }
 
 static void UpdateMonDisplayInfoAfterRareCandy(u8 slot, struct Pokemon *mon)
