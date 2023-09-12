@@ -91,6 +91,9 @@ u8 CountItemsInPC(void);
 void ApplyNewEncryptionKeyToBagItems_(u32 newKey);
 bool8 HasAtLeastOneBerry(void);
 
+void ItemId_GetHoldEffectParam_Script();
+void Cycle_Through_Repels(void);
+
 void DrawHeaderBox(void);
 void HideHeaderBox(void);
 
