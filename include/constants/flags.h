@@ -44,7 +44,7 @@
 #define TEMP_FLAGS_END   FLAG_TEMP_1F
 
 #define FLAG_SYS_NO_COLLISION               0x020
-#define FLAG_0x021                          0x021
+#define FLAG_SYS_NO_BATTLE_DMG              0x021
 #define FLAG_0x022                          0x022
 #define FLAG_0x023                          0x023
 #define FLAG_0x024                          0x024

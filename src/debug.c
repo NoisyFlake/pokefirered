@@ -34,6 +34,7 @@ static void DebugAction_Fly(u8);
 static void DebugAction_Flash(u8);
 static void DebugAction_Heal(u8);
 static void DebugAction_ToggleCollision(u8);
+static void DebugAction_ToggleDamage(u8);
 static void DebugAction_GiveAllTMs(u8);
 static void DebugAction_GiveCoins(u8);
 static void DebugAction_GiveMoney(u8);
@@ -44,6 +45,7 @@ static const u8 gDebugText_Heal[] = _("Heal Party");
 static const u8 gDebugText_Fly[] = _("Fly");
 static const u8 gDebugText_Flash[] = _("Flash");
 static const u8 gDebugText_ToggleCollision[] = _("Collision ON/OFF");
+static const u8 gDebugText_ToggleDamage[] = _("Damage ON/OFF");
 static const u8 gDebugText_GiveAllTMs[] = _("Give TM/HMs");
 static const u8 gDebugText_GiveCoins[] = _("Give 1000 Coins");
 static const u8 gDebugText_GiveMoney[] = _("Give 10000 Money");
@@ -55,6 +57,7 @@ enum {
     DEBUG_MENU_ITEM_FLY,
     DEBUG_MENU_ITEM_FLASH,
     DEBUG_MENU_ITEM_TOGGLECOLLISION,
+    DEBUG_MENU_ITEM_TOGGLEDAMAGE,
     DEBUG_MENU_ITEM_GIVEALLTMS,
     DEBUG_MENU_ITEM_GIVECOINS,
     DEBUG_MENU_ITEM_GIVEMONEY,
@@ -68,6 +71,7 @@ static const struct ListMenuItem sDebugMenuItems[] =
     [DEBUG_MENU_ITEM_FLY] = {gDebugText_Fly, DEBUG_MENU_ITEM_FLY},
     [DEBUG_MENU_ITEM_FLASH] = {gDebugText_Flash, DEBUG_MENU_ITEM_FLASH},
     [DEBUG_MENU_ITEM_TOGGLECOLLISION] = {gDebugText_ToggleCollision, DEBUG_MENU_ITEM_TOGGLECOLLISION},
+    [DEBUG_MENU_ITEM_TOGGLEDAMAGE] = {gDebugText_ToggleDamage, DEBUG_MENU_ITEM_TOGGLEDAMAGE},
     [DEBUG_MENU_ITEM_GIVEALLTMS] = {gDebugText_GiveAllTMs, DEBUG_MENU_ITEM_GIVEALLTMS},
     [DEBUG_MENU_ITEM_GIVECOINS] = {gDebugText_GiveCoins, DEBUG_MENU_ITEM_GIVECOINS},
     [DEBUG_MENU_ITEM_GIVEMONEY] = {gDebugText_GiveMoney, DEBUG_MENU_ITEM_GIVEMONEY},
@@ -81,6 +85,7 @@ static void (*const sDebugMenuActions[])(u8) =
     [DEBUG_MENU_ITEM_FLY] = DebugAction_Fly,
     [DEBUG_MENU_ITEM_FLASH] = DebugAction_Flash,
     [DEBUG_MENU_ITEM_TOGGLECOLLISION] = DebugAction_ToggleCollision,
+    [DEBUG_MENU_ITEM_TOGGLEDAMAGE] = DebugAction_ToggleDamage,
     [DEBUG_MENU_ITEM_GIVEALLTMS] = DebugAction_GiveAllTMs,
     [DEBUG_MENU_ITEM_GIVECOINS] = DebugAction_GiveCoins,
     [DEBUG_MENU_ITEM_GIVEMONEY] = DebugAction_GiveMoney,
@@ -265,6 +270,17 @@ static void DebugAction_ToggleCollision(u8 taskId)
     } else {
         PlaySE(SE_PC_LOGIN);
         FlagSet(FLAG_SYS_NO_COLLISION);
+    }   
+}
+
+static void DebugAction_ToggleDamage(u8 taskId)
+{
+    if (FlagGet(FLAG_SYS_NO_BATTLE_DMG)) {
+        PlaySE(SE_PC_OFF);
+        FlagClear(FLAG_SYS_NO_BATTLE_DMG);
+    } else {
+        PlaySE(SE_PC_LOGIN);
+        FlagSet(FLAG_SYS_NO_BATTLE_DMG);
     }   
 }
 
