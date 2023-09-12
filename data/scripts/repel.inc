@@ -24,7 +24,7 @@ EventScript_RepelWoreOff_End:
 	releaseall
 	end
 
- Text_RepelWoreOff:
+Text_RepelWoreOff:
 	.string "REPEL's effect wore off…$"
 
 Text_RepelWoreOff_UseAnother:
