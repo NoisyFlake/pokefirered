@@ -7,9 +7,12 @@ Route24_EventScript_Rocket::
 	lock
 	faceplayer
 	goto_if_eq VAR_MAP_SCENE_ROUTE24, 1, Route24_EventScript_RocketPostBattle
+	goto_if_eq VAR_BRIDGE_GOT_NUGGET, 1, Route24_EventScript_BattleRocket
 	msgbox Route24_Text_JustEarnedFabulousPrize
 	checkitemspace ITEM_NUGGET
 	goto_if_eq VAR_RESULT, FALSE, Route24_EventScript_NoRoomForNugget
+	giveitem_msg Route24_Text_ReceivedNuggetFromMysteryTrainer, ITEM_NUGGET
+	setvar VAR_BRIDGE_GOT_NUGGET, 1
 	call Route24_EventScript_BattleRocket
 	release
 	end
@@ -42,15 +45,17 @@ Route24_EventScript_RocketTrigger::
 	call_if_eq VAR_TEMP_1, 1, Route24_EventScript_RocketMotionToPlayer
 	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFasterRight
 	waitmovement 0
+	goto_if_eq VAR_BRIDGE_GOT_NUGGET, 1, Route24_EventScript_BattleRocket
 	msgbox Route24_Text_JustEarnedFabulousPrize
 	checkitemspace ITEM_NUGGET
 	goto_if_eq VAR_RESULT, FALSE, Route24_EventScript_NoRoomForNuggetTrigger
+	giveitem_msg Route24_Text_ReceivedNuggetFromMysteryTrainer, ITEM_NUGGET
+	setvar VAR_BRIDGE_GOT_NUGGET, 1
 	call Route24_EventScript_BattleRocket
 	releaseall
 	end
 
 Route24_EventScript_BattleRocket::
-	giveitem_msg Route24_Text_ReceivedNuggetFromMysteryTrainer, ITEM_NUGGET
 	message Route24_Text_JoinTeamRocket
 	waitmessage
 	playbgm MUS_ENCOUNTER_ROCKET, 0
