@@ -113,6 +113,7 @@ static void PokeSum_PrintMoveName(u8 i);
 static void PokeSum_PrintTrainerMemo(void);
 static void PokeSum_PrintExpPoints_NextLv(void);
 static void PokeSum_PrintSelectedMoveStats(void);
+static void PokeSum_PrintSelectedMoveCategory(void);
 static void PokeSum_PrintTrainerMemo_Mon(void);
 static void PokeSum_PrintTrainerMemo_Egg(void);
 static bool32 MapSecIsInKantoOrSevii(u8 mapSec);
@@ -869,7 +870,7 @@ static const struct WindowTemplate sWindowTemplates_Moves[] =
         .tilemapTop = 7,
         .width = 15,
         .height = 13,
-        .paletteNum = 6,
+        .paletteNum = 10,
         .baseBlock = 0x00b5
     },
     [POKESUM_WIN_MOVES_5 - 3] = {
@@ -3009,7 +3010,22 @@ static void PokeSum_PrintSelectedMoveStats(void)
                                      0, 0,
                                      sLevelNickTextColors[0], TEXT_SKIP_DRAW,
                                      gMoveDescriptionPointers[sMonSummaryScreen->moveIds[sMoveSelectionCursorPos] - 1]);
+    
+        PokeSum_PrintSelectedMoveCategory();
     }
+}
+
+static void PokeSum_PrintSelectedMoveCategory(void){
+	static const u16 sSplitIcons_Pal[] = INCBIN_U16("graphics/interface/split_icons.gbapal");
+	static const u8 sSplitIcons_Gfx[] = INCBIN_U8("graphics/interface/split_icons.4bpp");
+	int icon = gBattleMoves[sMonSummaryScreen->moveIds[sMoveSelectionCursorPos]].category;
+
+    // We've changed the Palette of the window to 10, so now we load our custom palette for the split icons.
+    // This also affects the text on this page, but we've adjusted the image/palette so that it contains the
+    // original text colors as well.
+	LoadPalette(sSplitIcons_Pal, 10 * 0x10, 0x20);
+
+	BlitBitmapToWindow(sMonSummaryScreen->windowIds[POKESUM_WIN_TRAINER_MEMO], sSplitIcons_Gfx + 0x80 * icon, 100, 0, 16, 16);
 }
 
 static void PokeSum_PrintAbilityDataOrMoveTypes(void)
