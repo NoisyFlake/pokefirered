@@ -3025,7 +3025,7 @@ static void PokeSum_PrintSelectedMoveCategory(void){
     // original text colors as well.
 	LoadPalette(sSplitIcons_Pal, 10 * 0x10, 0x20);
 
-	BlitBitmapToWindow(sMonSummaryScreen->windowIds[POKESUM_WIN_TRAINER_MEMO], sSplitIcons_Gfx + 0x80 * icon, 100, 0, 16, 16);
+	BlitBitmapToWindow(sMonSummaryScreen->windowIds[POKESUM_WIN_TRAINER_MEMO], sSplitIcons_Gfx + 0x80 * icon, 85, 0, 16, 14);
 }
 
 static void PokeSum_PrintAbilityDataOrMoveTypes(void)

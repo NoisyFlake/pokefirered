@@ -40,6 +40,7 @@ enum {
     WIN_MESSAGE,
     WIN_SELL_QUANTITY,
     WIN_MONEY,
+    WIN_MOVE_CATEGORY
 };
 
 // Window IDs for the context menu that opens when a TM/HM is selected
@@ -323,6 +324,15 @@ static const struct WindowTemplate sWindowTemplates[] = {
         .paletteNum = 13,
         .baseBlock = 0x31d
     },
+    [WIN_MOVE_CATEGORY] = {
+        .bg = 1,
+        .tilemapLeft = 7,
+        .tilemapTop = 14,
+        .width = 2,
+        .height = 2,
+        .paletteNum = 9,
+        .baseBlock = 0x335
+    },
     DUMMY_WIN_TEMPLATE
 };
 
@@ -333,7 +343,7 @@ static const struct WindowTemplate sYesNoWindowTemplate = {
     .width = 6,
     .height = 4,
     .paletteNum = 15,
-    .baseBlock = 0x335
+    .baseBlock = 0x339
 };
 
 static const struct WindowTemplate sWindowTemplates_ContextMenu[] = {
@@ -1041,6 +1051,7 @@ static void Action_Give(u8 taskId)
     PutWindowTilemap(WIN_DESCRIPTION);
     PutWindowTilemap(WIN_MOVE_INFO_LABELS);
     PutWindowTilemap(WIN_MOVE_INFO);
+    PutWindowTilemap(WIN_MOVE_CATEGORY);
     ScheduleBgCopyTilemapToVram(0);
     ScheduleBgCopyTilemapToVram(1);
     if (!IS_HM(itemId))
@@ -1094,6 +1105,7 @@ static void CloseMessageAndReturnToList(u8 taskId)
     PutWindowTilemap(WIN_DESCRIPTION);
     PutWindowTilemap(WIN_MOVE_INFO_LABELS);
     PutWindowTilemap(WIN_MOVE_INFO);
+    PutWindowTilemap(WIN_MOVE_CATEGORY);
     ScheduleBgCopyTilemapToVram(0);
     ScheduleBgCopyTilemapToVram(1);
     ReturnToList(taskId);
@@ -1111,6 +1123,7 @@ static void Action_Exit(u8 taskId)
     PutWindowTilemap(WIN_DESCRIPTION);
     PutWindowTilemap(WIN_MOVE_INFO_LABELS);
     PutWindowTilemap(WIN_MOVE_INFO);
+    PutWindowTilemap(WIN_MOVE_CATEGORY);
     ScheduleBgCopyTilemapToVram(0);
     ScheduleBgCopyTilemapToVram(1);
     ReturnToList(taskId);
@@ -1183,6 +1196,7 @@ static void Task_SaleOfTMsCanceled(u8 taskId)
     PutWindowTilemap(WIN_TITLE);
     PutWindowTilemap(WIN_MOVE_INFO_LABELS);
     PutWindowTilemap(WIN_MOVE_INFO);
+    PutWindowTilemap(WIN_MOVE_CATEGORY);
     ScheduleBgCopyTilemapToVram(0);
     ScheduleBgCopyTilemapToVram(1);
     PrintListCursor(tListTaskId, COLOR_DARK);
@@ -1289,6 +1303,7 @@ static void Task_AfterSale_ReturnToList(u8 taskId)
         PutWindowTilemap(WIN_TITLE);
         PutWindowTilemap(WIN_MOVE_INFO_LABELS);
         PutWindowTilemap(WIN_MOVE_INFO);
+        PutWindowTilemap(WIN_MOVE_CATEGORY);
         CloseMessageAndReturnToList(taskId);
     }
 }
@@ -1472,6 +1487,7 @@ static void InitWindowTemplatesAndPals(void)
     PutWindowTilemap(WIN_TITLE);
     PutWindowTilemap(WIN_MOVE_INFO_LABELS);
     PutWindowTilemap(WIN_MOVE_INFO);
+    PutWindowTilemap(WIN_MOVE_CATEGORY);
     ScheduleBgCopyTilemapToVram(0);
 }
 
@@ -1517,12 +1533,18 @@ static void PrintMoveInfo(u16 itemId)
     u16 move;
     const u8 * str;
 
+    static const u16 sSplitIcons_Pal[] = INCBIN_U16("graphics/interface/split_icons.gbapal");
+	static const u8 sSplitIcons_Gfx[] = INCBIN_U8("graphics/interface/split_icons.4bpp");
+    int icon;
+
     FillWindowPixelRect(WIN_MOVE_INFO, 0, 0, 0, 40, 48);
+    FillWindowPixelBuffer(WIN_MOVE_CATEGORY, 0);
     if (itemId == ITEM_NONE)
     {
         for (i = 0; i < 4; i++)
             TMCase_Print(WIN_MOVE_INFO, FONT_NORMAL_COPY_2, gText_ThreeHyphens, 7, 12 * i, 0, 0, TEXT_SKIP_DRAW, COLOR_MOVE_INFO);
         CopyWindowToVram(WIN_MOVE_INFO, COPYWIN_GFX);
+        CopyWindowToVram(WIN_MOVE_CATEGORY, COPYWIN_GFX);
     }
     else
     {
@@ -1538,7 +1560,14 @@ static void PrintMoveInfo(u16 itemId)
             ConvertIntToDecimalStringN(gStringVar1, gBattleMoves[move].power, STR_CONV_MODE_RIGHT_ALIGN, 3);
             str = gStringVar1;
         }
-        TMCase_Print(WIN_MOVE_INFO, FONT_NORMAL_COPY_2, str, 7, 12, 0, 0, TEXT_SKIP_DRAW, COLOR_MOVE_INFO);
+        TMCase_Print(WIN_MOVE_INFO, FONT_NORMAL_COPY_2, str, 14, 12, 0, 0, TEXT_SKIP_DRAW, COLOR_MOVE_INFO);
+
+        // Print category
+        icon = gBattleMoves[move].category;
+        LoadPalette(sSplitIcons_Pal, 9 * 0x10, 0x20);
+        PutWindowTilemap(WIN_MOVE_CATEGORY);
+        BlitBitmapToWindow(WIN_MOVE_CATEGORY, sSplitIcons_Gfx + 0x80 * icon, 0, 3, 16, 16);
+	    CopyWindowToVram(WIN_MOVE_CATEGORY, COPYWIN_GFX);
 
         // Print accuracy
         if (gBattleMoves[move].accuracy == 0)
@@ -1548,11 +1577,11 @@ static void PrintMoveInfo(u16 itemId)
             ConvertIntToDecimalStringN(gStringVar1, gBattleMoves[move].accuracy, STR_CONV_MODE_RIGHT_ALIGN, 3);
             str = gStringVar1;
         }
-        TMCase_Print(WIN_MOVE_INFO, FONT_NORMAL_COPY_2, str, 7, 24, 0, 0, TEXT_SKIP_DRAW, COLOR_MOVE_INFO);
+        TMCase_Print(WIN_MOVE_INFO, FONT_NORMAL_COPY_2, str, 14, 24, 0, 0, TEXT_SKIP_DRAW, COLOR_MOVE_INFO);
 
         // Print PP
         ConvertIntToDecimalStringN(gStringVar1, gBattleMoves[move].pp, STR_CONV_MODE_RIGHT_ALIGN, 3);
-        TMCase_Print(WIN_MOVE_INFO, FONT_NORMAL_COPY_2, gStringVar1, 7, 36, 0, 0, TEXT_SKIP_DRAW, COLOR_MOVE_INFO);
+        TMCase_Print(WIN_MOVE_INFO, FONT_NORMAL_COPY_2, gStringVar1, 14, 36, 0, 0, TEXT_SKIP_DRAW, COLOR_MOVE_INFO);
 
         CopyWindowToVram(WIN_MOVE_INFO, COPYWIN_GFX);
     }
