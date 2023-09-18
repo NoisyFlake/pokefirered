@@ -218,6 +218,7 @@ EWRAM_DATA struct BattleSpriteData *gBattleSpritesDataPtr = NULL;
 EWRAM_DATA struct MonSpritesGfx *gMonSpritesGfxPtr = NULL;
 EWRAM_DATA u16 gBattleMovePower = 0;
 EWRAM_DATA u16 gMoveToLearn = 0;
+EWRAM_DATA u8 gShowMoveStats = 0;
 EWRAM_DATA u8 gBattleMonForms[MAX_BATTLERS_COUNT] = {0};
 
 void (*gPreBattleCallback1)(void);
@@ -2238,6 +2239,7 @@ static void BattleStartClearSetData(void)
 
     gBattleScripting.battleStyle = gSaveBlock2Ptr->optionsBattleStyle;
     gBattleScripting.monCaught = FALSE;
+    gShowMoveStats = 0;
 
     gMultiHitCounter = 0;
     gBattleOutcome = 0;

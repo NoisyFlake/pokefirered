@@ -711,6 +711,7 @@ extern u16 gLastLandedMoves[MAX_BATTLERS_COUNT];
 extern u8 gLastHitBy[MAX_BATTLERS_COUNT];
 extern u8 gMultiUsePlayerCursor;
 extern u8 gNumberOfMovesToChoose;
+extern u8 gShowMoveStats;
 extern u16 gLastHitByType[MAX_BATTLERS_COUNT];
 extern s32 gHpDealt;
 extern u16 gPauseCounterBattle;
