@@ -1421,9 +1421,9 @@ static void MoveSelectionDisplayPpNumber(void)
         return;
     SetPpNumbersPaletteInMoveSelection();
     moveInfo = (struct ChooseMoveStruct *)(&gBattleBufferA[gActiveBattler][4]);
-    txtPtr = ConvertIntToDecimalStringN(gDisplayedStringBattle, moveInfo->currentPp[gMoveSelectionCursor[gActiveBattler]], STR_CONV_MODE_RIGHT_ALIGN, 2);
+    txtPtr = ConvertIntToDecimalStringN(gDisplayedStringBattle, moveInfo->currentPp[gMoveSelectionCursor[gActiveBattler]], STR_CONV_MODE_LEFT_ALIGN, 2);
     *txtPtr = CHAR_SLASH;
-    ConvertIntToDecimalStringN(++txtPtr, moveInfo->maxPp[gMoveSelectionCursor[gActiveBattler]], STR_CONV_MODE_RIGHT_ALIGN, 2);
+    ConvertIntToDecimalStringN(++txtPtr, moveInfo->maxPp[gMoveSelectionCursor[gActiveBattler]], STR_CONV_MODE_LEFT_ALIGN, 2);
     BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_PP_REMAINING);
 }
 
@@ -1472,11 +1472,7 @@ static void MoveSelectionDisplayMoveType(void)
     CpuCopy16(&gPlttBufferUnfaded[0x58], &gPlttBufferFaded[0x58], sizeof(u16));
 	CpuCopy16(&gPlttBufferUnfaded[0x59], &gPlttBufferFaded[0x59], sizeof(u16));
 
-    txtPtr = StringCopy(gDisplayedStringBattle, gText_MoveInterfaceType);
-    *txtPtr++ = EXT_CTRL_CODE_BEGIN;
-    *txtPtr++ = 6;
-    *txtPtr++ = 1;
-    txtPtr = StringCopy(txtPtr, gText_MoveInterfaceTypeEffectiveness);
+    txtPtr = StringCopy(gDisplayedStringBattle, gText_MoveInterfaceTypeEffectiveness);
     StringCopy(txtPtr, gTypeNames[gBattleMoves[moveInfo->moves[gMoveSelectionCursor[gActiveBattler]]].type]);
     BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_MOVE_TYPE);
 
@@ -3038,7 +3034,8 @@ static void MoveSelectionDisplaySplitIcon(void){
 	moveInfo = (struct ChooseMoveStruct*)(&gBattleBufferA[gActiveBattler][4]);
 	icon = gBattleMoves[moveInfo->moves[gMoveSelectionCursor[gActiveBattler]]].category;
 	LoadPalette(sSplitIcons_Pal, 10 * 0x10, 0x20);
-	BlitBitmapToWindow(B_WIN_MOVE_CATEGORY, sSplitIcons_Gfx + 0x80 * icon, 0, 0, 16, 16);
+    FillWindowPixelBuffer(B_WIN_MOVE_CATEGORY, PIXEL_FILL(7));
+	BlitBitmapToWindow(B_WIN_MOVE_CATEGORY, sSplitIcons_Gfx + 0x80 * icon, 2, 0, 16, 16);
 	PutWindowTilemap(B_WIN_MOVE_CATEGORY);
 	CopyWindowToVram(B_WIN_MOVE_CATEGORY, 3);
 }
