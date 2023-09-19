@@ -1442,10 +1442,23 @@ static void MoveSelectionDisplayUpperRightString(void)
         u16 move = moveInfo->moves[gMoveSelectionCursor[gActiveBattler]];
         StringCopy(gDisplayedStringBattle, gText_MoveInterfaceDynamicColors);
 
-        if (gBattleMoves[move].power <= 2) {
+        if (gBattleMoves[move].power <= 1 && move != MOVE_HIDDEN_POWER) {
             StringAppend(gDisplayedStringBattle, gText_ThreeHyphens);
         } else {
-            ConvertIntToDecimalStringN(text, gBattleMoves[move].power, STR_CONV_MODE_LEFT_ALIGN, 3);
+            if(move == MOVE_HIDDEN_POWER) {
+                u8 powerBits = ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_HP_IV) & 2) >> 1)
+                        | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_ATK_IV) & 2) << 0)
+                        | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_DEF_IV) & 2) << 1)
+                        | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_SPEED_IV) & 2) << 2)
+                        | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_SPATK_IV)& 2) << 3)
+                        | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_SPDEF_IV) & 2) << 4);
+                
+                u8 powerForHiddenPower = (40 * powerBits) / 63 + 30;
+                ConvertIntToDecimalStringN(text, powerForHiddenPower, STR_CONV_MODE_LEFT_ALIGN, 3);
+            } else {
+                ConvertIntToDecimalStringN(text, gBattleMoves[move].power, STR_CONV_MODE_LEFT_ALIGN, 3);
+            }
+            
             StringAppend(gDisplayedStringBattle, text);
         }
     } else {
@@ -1493,8 +1506,7 @@ static void MoveSelectionDisplayLowerStrings(void)
         BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_MOVE_STATS_LOWER_LEFT);
 
         // Show type effectiveness only for moves that have power
-        if (gBattleMoves[move].power) {
-
+        if (gBattleMoves[move].power || move == MOVE_HIDDEN_POWER) {
             u8 moveFlags = AI_TypeCalc(move, gBattleMons[targetId].species, gBattleMons[targetId].ability);
             u8 moveType = gBattleMoves[move].type;
             u8 stab = 0;
@@ -1525,7 +1537,27 @@ static void MoveSelectionDisplayLowerStrings(void)
         CpuCopy16(&gPlttBufferUnfaded[0x59], &gPlttBufferFaded[0x59], sizeof(u16));
 
         txtPtr = StringCopy(gDisplayedStringBattle, gText_MoveInterfaceTypeEffectiveness);
-        StringCopy(txtPtr, gTypeNames[gBattleMoves[moveInfo->moves[gMoveSelectionCursor[gActiveBattler]]].type]);
+        
+        if (move == MOVE_HIDDEN_POWER)
+        {
+            u8 typeBits  = ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_HP_IV) & 1) << 0)
+                        | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_ATK_IV) & 1) << 1)
+                        | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_DEF_IV) & 1) << 2)
+                        | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_SPEED_IV) & 1) << 3)
+                        | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_SPATK_IV) & 1) << 4)
+                        | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_SPDEF_IV) & 1) << 5);
+
+            u8 type = (15 * typeBits) / 63 + 1;
+            if (type >= TYPE_MYSTERY)
+                type++;
+            type |= 0xC0;
+            StringCopy(txtPtr, gTypeNames[type & 0x3F]);
+        }
+        else
+        {
+            StringCopy(txtPtr, gTypeNames[gBattleMoves[move].type]);
+        }
+
         BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_MOVE_STATS_LOWER_RIGHT);
     }
 }
