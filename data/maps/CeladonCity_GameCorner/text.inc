@@ -25,7 +25,7 @@ CeladonCity_GameCorner_Text_CantAffordCoins::
 
 CeladonCity_GameCorner_Text_HereAreYourCoins::
     .string "Thank you.\n"
-    .string "Here are your COINS!$"
+    .string "Do you need more COINS?$"
 
 CeladonCity_GameCorner_Text_RumoredTeamRocketRunsThisPlace::
     .string "Keep this quiet.\p"

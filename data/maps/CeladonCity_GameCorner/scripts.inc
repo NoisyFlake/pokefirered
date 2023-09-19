@@ -28,6 +28,10 @@ CeladonCity_GameCorner_EventScript_CoinsClerk::
 	showcoinsbox 0, 5
 	message CeladonCity_GameCorner_Text_WelcomeBuySomeCoins
 	waitmessage
+	goto CeladonCity_GameCorner_EventScript_CoinsClerkChoice
+	end
+
+CeladonCity_GameCorner_EventScript_CoinsClerkChoice::
 	multichoice 13, 0, MULTICHOICE_GAME_CORNER_COIN_PURCHASE_COUNTER, FALSE
 	copyvar VAR_0x8009, VAR_RESULT
 	switch VAR_RESULT
@@ -46,20 +50,20 @@ CeladonCity_GameCorner_EventScript_BuyCoins::
 CeladonCity_GameCorner_EventScript_Buy500Coins::
 	checkcoins VAR_TEMP_1
 	goto_if_ge VAR_TEMP_1, (MAX_COINS + 1) - 500, CeladonCity_GameCorner_EventScript_ClerkNoRoomForCoins
-	checkmoney 10000
+	checkmoney 2000
 	goto_if_eq VAR_RESULT, FALSE, CeladonCity_GameCorner_EventScript_ClerkNotEnoughMoney
 	addcoins 500
-	removemoney 10000
+	removemoney 2000
 	goto CeladonCity_GameCorner_EventScript_BoughtCoins
 	end
 
 CeladonCity_GameCorner_EventScript_Buy50Coins::
 	checkcoins VAR_TEMP_1
 	goto_if_ge VAR_TEMP_1, (MAX_COINS + 1) - 50, CeladonCity_GameCorner_EventScript_ClerkNoRoomForCoins
-	checkmoney 1000
+	checkmoney 200
 	goto_if_eq VAR_RESULT, FALSE, CeladonCity_GameCorner_EventScript_ClerkNotEnoughMoney
 	addcoins 50
-	removemoney 1000
+	removemoney 200
 	goto CeladonCity_GameCorner_EventScript_BoughtCoins
 	end
 
@@ -68,7 +72,7 @@ CeladonCity_GameCorner_EventScript_BoughtCoins::
 	updatecoinsbox 0, 5
 	playse SE_SHOP
 	msgbox CeladonCity_GameCorner_Text_HereAreYourCoins
-	goto CeladonCity_GameCorner_EventScript_ClerkEnd
+	goto CeladonCity_GameCorner_EventScript_CoinsClerkChoice
 	end
 
 CeladonCity_GameCorner_EventScript_ClerkEnd::
