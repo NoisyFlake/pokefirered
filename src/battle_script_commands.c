@@ -5745,7 +5745,7 @@ static void Cmd_drawlvlupbox(void)
         SetBgAttribute(1, BG_ATTR_PRIORITY, 0);
         ShowBg(0);
         ShowBg(1);
-        HandleBattleWindow(17, 7, 29, 19, WINDOW_BG1);
+        HandleBattleWindow(16, 7, 29, 19, WINDOW_BG1);
         gBattleScripting.drawlvlupboxState = 4;
         break;
     case 4:
@@ -5782,7 +5782,7 @@ static void Cmd_drawlvlupbox(void)
                 PlaySE(SE_SELECT);
 
             // Close level up box
-            HandleBattleWindow(17, 7, 29, 19, WINDOW_BG1 | WINDOW_CLEAR);
+            HandleBattleWindow(16, 7, 29, 19, WINDOW_BG1 | WINDOW_CLEAR);
             gBattleScripting.drawlvlupboxState++;
         }
         break;

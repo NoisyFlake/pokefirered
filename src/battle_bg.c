@@ -250,9 +250,9 @@ static const struct WindowTemplate sStandardBattleWindowTemplates[] = {
     },
     [B_WIN_LEVEL_UP_BOX] = {
         .bg = 1,
-        .tilemapLeft = 18,
+        .tilemapLeft = 17,
         .tilemapTop = 8,
-        .width = 11,
+        .width = 12,
         .height = 11,
         .paletteNum = 5,
         .baseBlock = 0x100
@@ -264,7 +264,7 @@ static const struct WindowTemplate sStandardBattleWindowTemplates[] = {
         .width = 12,
         .height = 3,
         .paletteNum = 6,
-        .baseBlock = 0x16e
+        .baseBlock = 0x184
     },
     [B_WIN_YESNO] = {
         .bg = 0,

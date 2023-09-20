@@ -1517,13 +1517,15 @@ void DrawLevelUpWindowPg1(u16 windowId, u16 *gainedExp, u8 bgColor, u8 fgColor, 
     for (i = 0; i < PARTY_SIZE; i++)
     {
         GetMonData(&gPlayerParty[i], MON_DATA_NICKNAME, textbuf);
-        AddTextPrinterParameterized3(windowId, FONT_SMALL, 0, i * 15, textColor, TEXT_SKIP_DRAW, textbuf);
+        AddTextPrinterParameterized3(windowId, FONT_SMALL, 2, i * 15, textColor, TEXT_SKIP_DRAW, textbuf);
 
         if (strlen(textbuf) > 0) {
             textbuf[0] = CHAR_PLUS;
-            ConvertIntToDecimalStringN(textbuf + 1, gainedExp[i], STR_CONV_MODE_LEFT_ALIGN, 4);
+            ConvertIntToDecimalStringN(textbuf + 1, gainedExp[i], STR_CONV_MODE_LEFT_ALIGN, 5);
 
-            if (gainedExp[i] >= 1000)
+            if (gainedExp[i] >= 10000)
+                ndigits = 5;
+            else if (gainedExp[i] >= 1000)
                 ndigits = 4;
             else if (gainedExp[i] >= 100)
                 ndigits = 3;
@@ -1534,7 +1536,7 @@ void DrawLevelUpWindowPg1(u16 windowId, u16 *gainedExp, u8 bgColor, u8 fgColor, 
 
             x = 5 * (4 - ndigits);
             
-            AddTextPrinterParameterized3(windowId, FONT_SMALL, 60 + x, i * 15, gainedExp[i] > 0 ? textColor : disabledColor, TEXT_SKIP_DRAW, textbuf);
+            AddTextPrinterParameterized3(windowId, FONT_SMALL, 66 + x, i * 15, gainedExp[i] > 0 ? textColor : disabledColor, TEXT_SKIP_DRAW, textbuf);
         }
     }
 }
@@ -1559,7 +1561,7 @@ void DrawLevelUpWindowPg2(u16 windowId, u16 *oldLevel, u8 bgColor, u8 fgColor, u
     for (i = 0; i < PARTY_SIZE; i++)
     {
         GetMonData(&gPlayerParty[i], MON_DATA_NICKNAME, textbuf);
-        AddTextPrinterParameterized3(windowId, FONT_SMALL, 0, i * 15, textColor, TEXT_SKIP_DRAW, textbuf);
+        AddTextPrinterParameterized3(windowId, FONT_SMALL, 2, i * 15, textColor, TEXT_SKIP_DRAW, textbuf);
 
         monLevel = GetMonData(&gPlayerParty[i], MON_DATA_LEVEL);
 
@@ -1577,7 +1579,7 @@ void DrawLevelUpWindowPg2(u16 windowId, u16 *oldLevel, u8 bgColor, u8 fgColor, u
             if (monLevel > oldLevel[i]) {
                 textbuf[0] = CHAR_UP_ARROW;
                 textbuf[1] = EOS;
-                AddTextPrinterParameterized3(windowId, FONT_SMALL, 50 + x, i * 15, textColor, TEXT_SKIP_DRAW, textbuf);
+                AddTextPrinterParameterized3(windowId, FONT_SMALL, 56 + x, i * 15, textColor, TEXT_SKIP_DRAW, textbuf);
                 gBattleScripting.monDidLevelUp = TRUE;
                 gBattleResources->beforeLvlUp->didLevelUp[i] = TRUE;
 
@@ -1587,7 +1589,7 @@ void DrawLevelUpWindowPg2(u16 windowId, u16 *oldLevel, u8 bgColor, u8 fgColor, u
 
             textbuf[0] = CHAR_LV;
             ConvertIntToDecimalStringN(textbuf + 1, monLevel, STR_CONV_MODE_LEFT_ALIGN, 3);
-            AddTextPrinterParameterized3(windowId, FONT_SMALL, 60 + x, i * 15, textColor, TEXT_SKIP_DRAW, textbuf);
+            AddTextPrinterParameterized3(windowId, FONT_SMALL, 66 + x, i * 15, textColor, TEXT_SKIP_DRAW, textbuf);
         }
     }
 
