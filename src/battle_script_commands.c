@@ -3394,12 +3394,7 @@ static void Cmd_getexp(void)
                 Cmd_drawlvlupbox();
 
                 // The level up box has been closed, run move learn script for every pokemon
-                if (gBattleScripting.drawlvlupboxState == 10) {
-
-                    // This seemingly redundant call is necessary because step 10 might not've been executed
-                    // in the last cycle, but it's crucial to run it before the LevelUp script or else
-                    // the yes/no box might not have the correct background state
-                    Cmd_drawlvlupbox();
+                if (gBattleScripting.drawlvlupboxState == 11) {
 
                     if (gBattleStruct->expGetterMonId < PARTY_SIZE) {
                         if (gBattleResources->beforeLvlUp->didLevelUp[gBattleStruct->expGetterMonId] == FALSE) {
@@ -5813,6 +5808,7 @@ static void Cmd_drawlvlupbox(void)
             SetBgAttribute(1, BG_ATTR_PRIORITY, 1);
             ShowBg(0);
             ShowBg(1);
+            gBattleScripting.drawlvlupboxState = 11;
         }
         break;
     }
