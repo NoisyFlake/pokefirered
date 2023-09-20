@@ -2295,7 +2295,13 @@ u16 MonTryLearningNewMove(struct Pokemon *mon, bool8 firstMove)
     if (gBattleResources->beforeLvlUp->didLevelUp[gBattleStruct->expGetterMonId] == TRUE) {
         level = gBattleResources->beforeLvlUp->level[gBattleStruct->expGetterMonId];
     }
-    
+
+    // When calling this function from an evolution, we use gBattleMoveDamage as an increasing level loop variable so 
+    // that the mon learns all moves between the level it evolved and the current level
+    if (gBattleMoveDamage) {
+        level = gBattleMoveDamage;
+    }
+
     // since you can learn more than one move per level
     // the game needs to know whether you decided to
     // learn it or keep the old set to avoid asking

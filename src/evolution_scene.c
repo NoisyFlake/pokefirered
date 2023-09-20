@@ -788,6 +788,14 @@ static void Task_EvolutionScene(u8 taskId)
         if (!IsTextPrinterActive(0))
         {
             HelpSystem_Enable();
+
+            // gBattleMoveDamage is used as a level counter here
+            if (gEvolutionTable[gTasks[taskId].tPreEvoSpecies][0].method == EVO_LEVEL) {
+                if (gBattleMoveDamage == 0) {
+                    gBattleMoveDamage = gEvolutionTable[gTasks[taskId].tPreEvoSpecies][0].param;
+                }
+            }
+
             var = MonTryLearningNewMove(mon, gTasks[taskId].tLearnsFirstMove);
             if (var != MOVE_NONE && !gTasks[taskId].tEvoWasStopped)
             {
@@ -810,6 +818,15 @@ static void Task_EvolutionScene(u8 taskId)
             }
             else // no move to learn, or evolution was canceled
             {
+                if (!gTasks[taskId].tEvoWasStopped && gBattleMoveDamage) {
+                    if (gBattleMoveDamage < GetMonData(mon, MON_DATA_LEVEL, NULL)) {
+                        // Increase the level counter since the mon has not yet learned all moves
+                        gBattleMoveDamage++;
+                        break;
+                    } else {
+                        gBattleMoveDamage = 0;
+                    }
+                }
                 BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
                 gTasks[taskId].tState++;
             }
