@@ -2291,10 +2291,11 @@ u16 MonTryLearningNewMove(struct Pokemon *mon, bool8 firstMove)
     u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
     u8 level = GetMonData(mon, MON_DATA_LEVEL, NULL);
 
-    if (gBattleScripting.monDidLevelUp)
+    // Use the custom level instead of the current mon level, since we're in a loop over every level the mon gained
+    if (gBattleResources->beforeLvlUp->didLevelUp[gBattleStruct->expGetterMonId] == TRUE) {
         level = gBattleResources->beforeLvlUp->level[gBattleStruct->expGetterMonId];
-        
-
+    }
+    
     // since you can learn more than one move per level
     // the game needs to know whether you decided to
     // learn it or keep the old set to avoid asking

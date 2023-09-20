@@ -3204,9 +3204,6 @@ static void Cmd_getexp(void)
                 // gBattleStruct->wildVictorySong++;
             }
 
-            // Clear beforeLvlUp entries so we don't have old values in there
-            gBattleResources->beforeLvlUp = AllocZeroed(sizeof(*gBattleResources->beforeLvlUp));
-
             PrepareStringBattle(STRINGID_PKMNGAINEDEXP, 0);
         }
         // fall through
@@ -3296,6 +3293,7 @@ static void Cmd_getexp(void)
             if (!gBattleResources->beforeLvlUp->exp[gBattleStruct->expGetterMonId]) {
                 gBattleResources->beforeLvlUp->exp[gBattleStruct->expGetterMonId]  = gBattleMoveDamage;
                 gBattleResources->beforeLvlUp->level[gBattleStruct->expGetterMonId]  = GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_LEVEL);
+                gBattleResources->beforeLvlUp->didLevelUp[gBattleStruct->expGetterMonId] = FALSE; // Will be set later in the lvlupbox
             }
             
             if (GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_HP) && GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_LEVEL) != MAX_LEVEL)
@@ -3397,14 +3395,28 @@ static void Cmd_getexp(void)
 
                 // The level up box has been closed, run move learn script for every pokemon
                 if (gBattleScripting.drawlvlupboxState == 10) {
-                    if (gBattleStruct->expGetterMonId < PARTY_SIZE) {
-                        // expGetterMonId will be increased inside BattleScript_LevelUp
-                        GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_NICKNAME, gBattleTextBuff1);
 
-                        // Push the CurrInstr onto the stack, so that we can return to here from the LevelUp script
-                        BattleScriptPushCursor();
-                        gBattlescriptCurrInstr = BattleScript_LevelUp;
+                    // This seemingly redundant call is necessary because step 10 might not've been executed
+                    // in the last cycle, but it's crucial to run it before the LevelUp script or else
+                    // the yes/no box might not have the correct background state
+                    Cmd_drawlvlupbox();
+
+                    if (gBattleStruct->expGetterMonId < PARTY_SIZE) {
+                        if (gBattleResources->beforeLvlUp->didLevelUp[gBattleStruct->expGetterMonId] == FALSE) {
+                            // This pokemon did not level up, continue
+                            gBattleStruct->expGetterMonId++;
+                        } else {
+                            // expGetterMonId will be increased inside BattleScript_LevelUp
+                            GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_NICKNAME, gBattleTextBuff1);
+
+                            // Push the CurrInstr onto the stack, so that we can return to here from the LevelUp script
+                            BattleScriptPushCursor();
+                            gBattlescriptCurrInstr = BattleScript_LevelUp;
+                        }
                     } else {
+                        // Clear beforeLvlUp entries so we don't have old values in there in the next battle
+                        gBattleResources->beforeLvlUp = AllocZeroed(sizeof(*gBattleResources->beforeLvlUp));
+
                         gBattleScripting.drawlvlupboxState = 0;
                         gBattlescriptCurrInstr += 2;
                     }

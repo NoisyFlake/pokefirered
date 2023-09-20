@@ -317,6 +317,7 @@ struct StatsArray
 {
     u16 exp[PARTY_SIZE];
     u16 level[PARTY_SIZE];
+    u8 didLevelUp[PARTY_SIZE];
 };
 
 struct BattleResources

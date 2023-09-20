@@ -1579,6 +1579,10 @@ void DrawLevelUpWindowPg2(u16 windowId, u16 *oldLevel, u8 bgColor, u8 fgColor, u
                 textbuf[1] = EOS;
                 AddTextPrinterParameterized3(windowId, FONT_SMALL, 50 + x, i * 15, textColor, TEXT_SKIP_DRAW, textbuf);
                 gBattleScripting.monDidLevelUp = TRUE;
+                gBattleResources->beforeLvlUp->didLevelUp[i] = TRUE;
+
+                // Increase the original value as it's used as the starting level for the learnmove loop (and we don't need it here anymore)
+                gBattleResources->beforeLvlUp->level[i]++;
             }
 
             textbuf[0] = CHAR_LV;
