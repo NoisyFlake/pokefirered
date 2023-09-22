@@ -67,7 +67,21 @@ static const union AnimCmd sAnim_Bag_OpenKeyItemsPocket[] = {
     ANIMCMD_END
 };
 
+static const union AnimCmd sAnim_Bag_OpenMedicinePocket[] = {
+    ANIMCMD_FRAME(   0, 5),
+    ANIMCMD_FRAME(0x100, 0),
+    ANIMCMD_END
+};
+
+static const union AnimCmd sAnim_Bag_OpenHeldItemsPocket[] = {
+    ANIMCMD_FRAME(   0, 5),
+    ANIMCMD_FRAME(0x140, 0),
+    ANIMCMD_END
+};
+
 static const union AnimCmd *const sAnims_Bag[] = {
+    [POCKET_MEDICINE - 1]   = sAnim_Bag_OpenMedicinePocket,
+    [POCKET_HELD_ITEMS - 1] = sAnim_Bag_OpenHeldItemsPocket,
     [POCKET_ITEMS - 1]      = sAnim_Bag_OpenItemsPocket,
     [POCKET_KEY_ITEMS - 1]  = sAnim_Bag_OpenKeyItemsPocket,
     [POCKET_POKE_BALLS - 1] = sAnim_Bag_OpenPokeBallsPocket,
@@ -93,13 +107,13 @@ static const union AffineAnimCmd *const sAffineAnimTable_Bag[] = {
 
 const struct CompressedSpriteSheet gSpriteSheet_BagMale = {
     .data = gBagMale_Gfx,
-    .size = 0x2000,
+    .size = 0x3000,
     .tag = TAG_BAG
 };
 
 const struct CompressedSpriteSheet gSpriteSheet_BagFemale = {
     .data = gBagFemale_Gfx,
-    .size = 0x2000,
+    .size = 0x3000,
     .tag = TAG_BAG
 };
 
