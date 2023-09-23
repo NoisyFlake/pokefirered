@@ -1412,6 +1412,14 @@ static void OpenContextMenu(u8 taskId)
                 break;
             case OPEN_BAG_KEYITEMS:
                 sContextMenuItemsPtr = sContextMenuItemsBuffer;
+                
+                if (ItemId_GetFieldFunc(gSpecialVar_ItemId) == FieldUseFunc_OakStopsYou){
+                    sContextMenuNumItems = 2;
+                    sContextMenuItemsBuffer[0] = ITEMMENUACTION_USE;
+                    sContextMenuItemsBuffer[1] = ITEMMENUACTION_CANCEL;
+                    break;
+                }
+
                 sContextMenuNumItems = 3;
                 sContextMenuItemsBuffer[2] = ITEMMENUACTION_CANCEL;
                 if (gSaveBlock1Ptr->registeredItem == gSpecialVar_ItemId)
