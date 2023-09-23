@@ -767,7 +767,7 @@ struct SaveBlock1
     /*0x0038*/ struct Pokemon playerParty[PARTY_SIZE];
     /*0x0290*/ u32 money;
     /*0x0294*/ u16 coins;
-    /*0x0296*/ u16 registeredItem; // registered for use with SELECT button
+    /*0x0296*/ u16 registeredItemSelect; // registered for use with SELECT button
     /*0x0298*/ struct ItemSlot pcItems[PC_ITEMS_COUNT];
     /*0x0310*/ struct ItemSlot bagPocket_Items[BAG_ITEMS_COUNT];
     /*0x03b8*/ struct ItemSlot bagPocket_KeyItems[BAG_KEYITEMS_COUNT];
@@ -800,7 +800,9 @@ struct SaveBlock1
     /*0x30D0*/ struct Roamer roamer;
     /*0x30EC*/ struct EnigmaBerry enigmaBerry;
     /*0x3120*/ struct MysteryGiftSave mysteryGift;
-    /*0x348C*/ u8 unused_348C[32];
+    /*0x348C*/ u8 unused_348C[28];
+    /*0x34A8*/ u16 registeredItemL; // registered for use with L button
+    /*0x34AA*/ u16 registeredItemR; // registered for use with R button
     /*0x34AC*/ struct ItemSlot bagPocket_Medicine[BAG_MEDICINE_COUNT];
     /*0x354C*/ struct ItemSlot bagPocket_HoldItems[BAG_HELDITEMS_COUNT];
     /*0x361C*/ struct RamScript ramScript;

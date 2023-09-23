@@ -472,15 +472,16 @@ void ItemPcCompaction(void)
     }
 }
 
+// Unused, there's only one bike in FR
 void RegisteredItemHandleBikeSwap(void)
 {
-    switch (gSaveBlock1Ptr->registeredItem)
+    switch (gSaveBlock1Ptr->registeredItemSelect)
     {
     case ITEM_MACH_BIKE:
-        gSaveBlock1Ptr->registeredItem = ITEM_ACRO_BIKE;
+        gSaveBlock1Ptr->registeredItemSelect = ITEM_ACRO_BIKE;
         break;
     case ITEM_ACRO_BIKE:
-        gSaveBlock1Ptr->registeredItem = ITEM_MACH_BIKE;
+        gSaveBlock1Ptr->registeredItemSelect = ITEM_MACH_BIKE;
         break;
     }
 }
