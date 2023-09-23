@@ -323,7 +323,7 @@ static void HandleInputChooseAction(void)
     {
         SwapHpBarsWithHpText();
     }
-    else if (JOY_NEW(R_BUTTON))
+    else if (JOY_NEW(SELECT_BUTTON))
     {
         // Open the Pokeballs bag in wild battles
         if(!(gBattleTypeFlags & BATTLE_TYPE_TRAINER)) 
@@ -602,7 +602,7 @@ void HandleInputChooseMove(void)
             gBattlerControllerFuncs[gActiveBattler] = HandleMoveSwitching;
         }
     }
-    else if (JOY_HELD(L_BUTTON))
+    else if (JOY_HELD(R_BUTTON))
     {
         if (gShowMoveStats == 0) {
             gShowMoveStats = 1;

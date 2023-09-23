@@ -304,7 +304,7 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
     if (input->pressedSelectButton && UseRegisteredKeyItemOnField(0)) {
         gFieldInputRecord.pressedSelectButton = TRUE;
         return TRUE;
-    } else if (input->pressedLButton && UseRegisteredKeyItemOnField(1)) {
+    } else if (gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_LR && input->pressedLButton && UseRegisteredKeyItemOnField(1)) {
         gFieldInputRecord.pressedLButton = TRUE;
         return TRUE;
     } else if (input->pressedRButton && UseRegisteredKeyItemOnField(2)) {
