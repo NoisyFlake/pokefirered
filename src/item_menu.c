@@ -279,13 +279,6 @@ static const u8 sContextMenuItems_BattleUse[] = {
     ITEMMENUACTION_CANCEL
 };
 
-static const u8 sContextMenuItems_RegisterKeyItem[] = {
-    ITEMMENUACTION_SELECT_BUTTON,
-    ITEMMENUACTION_L_BUTTON,
-    ITEMMENUACTION_R_BUTTON,
-    ITEMMENUACTION_CANCEL
-};
-
 static const u8 sContextMenuItems_Cancel[] = {
     ITEMMENUACTION_CANCEL,
     ITEMMENUACTION_DUMMY
@@ -753,7 +746,7 @@ static void BagListMenuItemPrintFunc(u8 windowId, u32 itemId, u8 y)
             if (gSaveBlock1Ptr->registeredItemSelect && gSaveBlock1Ptr->registeredItemSelect == bagItemId)
                 BlitBitmapToWindow(windowId, sBlit_SelectButton, 0x70, y, 0x18, 0x10);
 
-            if (gSaveBlock1Ptr->registeredItemL && gSaveBlock1Ptr->registeredItemL == bagItemId)
+            if (gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_LR && gSaveBlock1Ptr->registeredItemL && gSaveBlock1Ptr->registeredItemL == bagItemId)
                 BlitBitmapToWindow(windowId, sBlit_LButton, 0x70, y, 0x18, 0x10);
 
             if (gSaveBlock1Ptr->registeredItemR && gSaveBlock1Ptr->registeredItemR == bagItemId)
@@ -1446,9 +1439,8 @@ static void OpenContextMenu(u8 taskId)
                         break;
                     }
 
-                    
                     if (gSaveBlock1Ptr->registeredItemSelect == gSpecialVar_ItemId 
-                        || gSaveBlock1Ptr->registeredItemL == gSpecialVar_ItemId 
+                        || (gSaveBlock1Ptr->registeredItemL == gSpecialVar_ItemId && gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_LR)
                         || gSaveBlock1Ptr->registeredItemR == gSpecialVar_ItemId) {
                         sContextMenuNumItems = 4;
                         sContextMenuItemsBuffer[3] = ITEMMENUACTION_CANCEL;
@@ -1466,8 +1458,19 @@ static void OpenContextMenu(u8 taskId)
                     else
                         sContextMenuItemsBuffer[0] = ITEMMENUACTION_USE;
                 } else {
-                    sContextMenuNumItems = 4;
-                    sContextMenuItemsPtr = sContextMenuItems_RegisterKeyItem;
+                    sContextMenuItemsPtr = sContextMenuItemsBuffer;
+
+                    sContextMenuItemsBuffer[0] = ITEMMENUACTION_SELECT_BUTTON;
+                    if (gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_LR) {
+                        sContextMenuNumItems = 4;
+                        sContextMenuItemsBuffer[1] = ITEMMENUACTION_L_BUTTON;
+                        sContextMenuItemsBuffer[2] = ITEMMENUACTION_R_BUTTON;
+                        sContextMenuItemsBuffer[3] = ITEMMENUACTION_CANCEL;
+                    } else {
+                        sContextMenuNumItems = 3;
+                        sContextMenuItemsBuffer[1] = ITEMMENUACTION_R_BUTTON;
+                        sContextMenuItemsBuffer[2] = ITEMMENUACTION_CANCEL;
+                    }
                 }
                 break;
             case OPEN_BAG_HELDITEMS:
