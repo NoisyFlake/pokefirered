@@ -1964,7 +1964,7 @@
               {
                 "min_level": 44,
                 "max_level": 44,
-                "species": "SPECIES_MACHOKE"
+                "species": "SPECIES_SANDSLASH"
               },
               {
                 "min_level": 46,
@@ -2102,7 +2102,7 @@
               {
                 "min_level": 46,
                 "max_level": 46,
-                "species": "SPECIES_MACHOKE"
+                "species": "SPECIES_SANDSLASH"
               },
               {
                 "min_level": 48,
@@ -2240,7 +2240,7 @@
               {
                 "min_level": 44,
                 "max_level": 44,
-                "species": "SPECIES_MACHOKE"
+                "species": "SPECIES_SANDSLASH"
               },
               {
                 "min_level": 46,
@@ -2356,9 +2356,9 @@
                 "species": "SPECIES_GROWLITHE"
               },
               {
-                "min_level": 28,
-                "max_level": 28,
-                "species": "SPECIES_RATTATA"
+                "min_level": 30,
+                "max_level": 30,
+                "species": "SPECIES_VULPIX"
               },
               {
                 "min_level": 28,
@@ -2494,9 +2494,9 @@
                 "species": "SPECIES_GROWLITHE"
               },
               {
-                "min_level": 28,
-                "max_level": 28,
-                "species": "SPECIES_RATTATA"
+                "min_level": 30,
+                "max_level": 30,
+                "species": "SPECIES_VULPIX"
               },
               {
                 "min_level": 28,
@@ -2632,9 +2632,9 @@
                 "species": "SPECIES_GROWLITHE"
               },
               {
-                "min_level": 28,
-                "max_level": 28,
-                "species": "SPECIES_RATTATA"
+                "min_level": 30,
+                "max_level": 30,
+                "species": "SPECIES_VULPIX"
               },
               {
                 "min_level": 28,
@@ -2751,7 +2751,7 @@
               },
               {
                 "min_level": 34,
-                "max_level": 34,
+                "max_level": 38,
                 "species": "SPECIES_RATICATE"
               },
               {
@@ -2770,9 +2770,9 @@
                 "species": "SPECIES_GROWLITHE"
               },
               {
-                "min_level": 38,
-                "max_level": 38,
-                "species": "SPECIES_RATICATE"
+                "min_level": 30,
+                "max_level": 30,
+                "species": "SPECIES_VULPIX"
               },
               {
                 "min_level": 28,
@@ -2923,9 +2923,9 @@
                 "species": "SPECIES_PARASECT"
               },
               {
-                "min_level": 22,
-                "max_level": 22,
-                "species": "SPECIES_VENONAT"
+                "min_level": 23,
+                "max_level": 23,
+                "species": "SPECIES_PINSIR"
               },
               {
                 "min_level": 23,
@@ -2955,7 +2955,7 @@
               {
                 "min_level": 20,
                 "max_level": 25,
-                "species": "SPECIES_PSYDUCK"
+                "species": "SPECIES_SLOWPOKE"
               },
               {
                 "min_level": 25,
@@ -3241,9 +3241,9 @@
                 "species": "SPECIES_KANGASKHAN"
               },
               {
-                "min_level": 22,
-                "max_level": 22,
-                "species": "SPECIES_PARAS"
+                "min_level": 28,
+                "max_level": 28,
+                "species": "SPECIES_PINSIR"
               },
               {
                 "min_level": 28,
@@ -3263,7 +3263,7 @@
               {
                 "min_level": 20,
                 "max_level": 25,
-                "species": "SPECIES_PSYDUCK"
+                "species": "SPECIES_SLOWPOKE"
               },
               {
                 "min_level": 25,
@@ -3571,7 +3571,7 @@
               {
                 "min_level": 20,
                 "max_level": 25,
-                "species": "SPECIES_PSYDUCK"
+                "species": "SPECIES_SLOWPOKE"
               },
               {
                 "min_level": 25,
@@ -3879,7 +3879,7 @@
               {
                 "min_level": 20,
                 "max_level": 25,
-                "species": "SPECIES_PSYDUCK"
+                "species": "SPECIES_SLOWPOKE"
               },
               {
                 "min_level": 25,
@@ -4186,18 +4186,18 @@
               },
               {
                 "min_level": 40,
-                "max_level": 50,
-                "species": "SPECIES_GOLDUCK"
-              },
-              {
-                "min_level": 45,
                 "max_level": 55,
                 "species": "SPECIES_GOLDUCK"
               },
               {
                 "min_level": 40,
+                "max_level": 55,
+                "species": "SPECIES_SLOWBRO"
+              },
+              {
+                "min_level": 40,
                 "max_level": 50,
-                "species": "SPECIES_PSYDUCK"
+                "species": "SPECIES_SLOWPOKE"
               },
               {
                 "min_level": 40,
@@ -4752,18 +4752,18 @@
               },
               {
                 "min_level": 50,
-                "max_level": 60,
-                "species": "SPECIES_GOLDUCK"
-              },
-              {
-                "min_level": 55,
                 "max_level": 65,
                 "species": "SPECIES_GOLDUCK"
               },
               {
                 "min_level": 50,
+                "max_level": 65,
+                "species": "SPECIES_SLOWBRO"
+              },
+              {
+                "min_level": 50,
                 "max_level": 60,
-                "species": "SPECIES_PSYDUCK"
+                "species": "SPECIES_SLOWPOKE"
               },
               {
                 "min_level": 50,
@@ -5386,13 +5386,13 @@
             "mons": [
               {
                 "min_level": 27,
-                "max_level": 27,
+                "max_level": 29,
                 "species": "SPECIES_PSYDUCK"
               },
               {
-                "min_level": 29,
+                "min_level": 27,
                 "max_level": 29,
-                "species": "SPECIES_PSYDUCK"
+                "species": "SPECIES_SLOWPOKE"
               },
               {
                 "min_level": 31,
@@ -5524,13 +5524,13 @@
             "mons": [
               {
                 "min_level": 29,
-                "max_level": 29,
+                "max_level": 31,
                 "species": "SPECIES_PSYDUCK"
               },
               {
-                "min_level": 31,
+                "min_level": 29,
                 "max_level": 31,
-                "species": "SPECIES_PSYDUCK"
+                "species": "SPECIES_SLOWPOKE"
               },
               {
                 "min_level": 28,
@@ -5662,13 +5662,13 @@
             "mons": [
               {
                 "min_level": 30,
-                "max_level": 30,
+                "max_level": 32,
                 "species": "SPECIES_PSYDUCK"
               },
               {
-                "min_level": 32,
+                "min_level": 30,
                 "max_level": 32,
-                "species": "SPECIES_PSYDUCK"
+                "species": "SPECIES_SLOWPOKE"
               },
               {
                 "min_level": 30,
@@ -5696,14 +5696,14 @@
                 "species": "SPECIES_GOLBAT"
               },
               {
-                "min_level": 34,
+                "min_level": 32,
                 "max_level": 34,
                 "species": "SPECIES_GOLDUCK"
               },
               {
                 "min_level": 32,
-                "max_level": 32,
-                "species": "SPECIES_GOLDUCK"
+                "max_level": 34,
+                "species": "SPECIES_SLOWBRO"
               },
               {
                 "min_level": 28,
@@ -5712,8 +5712,8 @@
               },
               {
                 "min_level": 32,
-                "max_level": 32,
-                "species": "SPECIES_GOLDUCK"
+                "max_level": 34,
+                "species": "SPECIES_SLOWBRO"
               },
               {
                 "min_level": 30,
@@ -5809,14 +5809,14 @@
                 "species": "SPECIES_SEEL"
               },
               {
-                "min_level": 32,
+                "min_level": 30,
                 "max_level": 32,
                 "species": "SPECIES_PSYDUCK"
               },
               {
                 "min_level": 30,
-                "max_level": 30,
-                "species": "SPECIES_PSYDUCK"
+                "max_level": 32,
+                "species": "SPECIES_SLOWPOKE"
               },
               {
                 "min_level": 32,
@@ -5824,9 +5824,9 @@
                 "species": "SPECIES_GOLDUCK"
               },
               {
-                "min_level": 24,
-                "max_level": 24,
-                "species": "SPECIES_ZUBAT"
+                "min_level": 32,
+                "max_level": 32,
+                "species": "SPECIES_SLOWBRO"
               },
               {
                 "min_level": 26,
@@ -6152,9 +6152,9 @@
                 "species": "SPECIES_DEWGONG"
               },
               {
-                "min_level": 28,
-                "max_level": 28,
-                "species": "SPECIES_GOLBAT"
+                "min_level": 32,
+                "max_level": 32,
+                "species": "SPECIES_SLOWBRO"
               },
               {
                 "min_level": 36,
@@ -7283,9 +7283,9 @@
                 "species": "SPECIES_FEAROW"
               },
               {
-                "min_level": 30,
-                "max_level": 30,
-                "species": "SPECIES_SPEAROW"
+                "min_level": 38,
+                "max_level": 38,
+                "species": "SPECIES_MAGMAR"
               },
               {
                 "min_level": 39,
@@ -7293,9 +7293,9 @@
                 "species": "SPECIES_RAPIDASH"
               },
               {
-                "min_level": 30,
-                "max_level": 30,
-                "species": "SPECIES_SPEAROW"
+                "min_level": 40,
+                "max_level": 40,
+                "species": "SPECIES_MAGMAR"
               },
               {
                 "min_level": 42,
@@ -16864,13 +16864,13 @@
               },
               {
                 "min_level": 6,
-                "max_level": 6,
+                "max_level": 10,
                 "species": "SPECIES_EKANS"
               },
               {
-                "min_level": 10,
+                "min_level": 6,
                 "max_level": 10,
-                "species": "SPECIES_EKANS"
+                "species": "SPECIES_SANDSHREW"
               },
               {
                 "min_level": 8,
@@ -17181,9 +17181,9 @@
                 "species": "SPECIES_MEOWTH"
               },
               {
-                "min_level": 15,
-                "max_level": 15,
-                "species": "SPECIES_ODDISH"
+                "min_level": 13,
+                "max_level": 16,
+                "species": "SPECIES_BELLSPROUT"
               },
               {
                 "min_level": 15,
@@ -17319,9 +17319,9 @@
                 "species": "SPECIES_MEOWTH"
               },
               {
-                "min_level": 15,
-                "max_level": 15,
-                "species": "SPECIES_ODDISH"
+                "min_level": 13,
+                "max_level": 16,
+                "species": "SPECIES_BELLSPROUT"
               },
               {
                 "min_level": 15,
@@ -17371,7 +17371,7 @@
               {
                 "min_level": 20,
                 "max_level": 25,
-                "species": "SPECIES_PSYDUCK"
+                "species": "SPECIES_SLOWPOKE"
               },
               {
                 "min_level": 25,
@@ -17618,7 +17618,7 @@
               },
               {
                 "min_level": 19,
-                "max_level": 19,
+                "max_level": 22,
                 "species": "SPECIES_ODDISH"
               },
               {
@@ -17632,9 +17632,9 @@
                 "species": "SPECIES_PIDGEY"
               },
               {
-                "min_level": 22,
+                "min_level": 19,
                 "max_level": 22,
-                "species": "SPECIES_ODDISH"
+                "species": "SPECIES_BELLSPROUT"
               },
               {
                 "min_level": 18,
@@ -17647,14 +17647,14 @@
                 "species": "SPECIES_GROWLITHE"
               },
               {
-                "min_level": 17,
-                "max_level": 17,
-                "species": "SPECIES_MEOWTH"
+                "min_level": 18,
+                "max_level": 18,
+                "species": "SPECIES_VULPIX"
               },
               {
-                "min_level": 19,
-                "max_level": 19,
-                "species": "SPECIES_MEOWTH"
+                "min_level": 20,
+                "max_level": 20,
+                "species": "SPECIES_VULPIX"
               },
               {
                 "min_level": 17,
@@ -17771,28 +17771,28 @@
               },
               {
                 "min_level": 17,
-                "max_level": 17,
-                "species": "SPECIES_EKANS"
-              },
-              {
-                "min_level": 17,
-                "max_level": 17,
-                "species": "SPECIES_GROWLITHE"
-              },
-              {
-                "min_level": 19,
                 "max_level": 19,
                 "species": "SPECIES_EKANS"
               },
               {
-                "min_level": 17,
-                "max_level": 17,
-                "species": "SPECIES_EKANS"
+                "min_level": 16,
+                "max_level": 16,
+                "species": "SPECIES_VULPIX"
               },
               {
-                "min_level": 15,
-                "max_level": 15,
-                "species": "SPECIES_GROWLITHE"
+                "min_level": 19,
+                "max_level": 19,
+                "species": "SPECIES_SANDSHREW"
+              },
+              {
+                "min_level": 17,
+                "max_level": 17,
+                "species": "SPECIES_SANDSHREW"
+              },
+              {
+                "min_level": 16,
+                "max_level": 16,
+                "species": "SPECIES_VULPIX"
               },
               {
                 "min_level": 17,
@@ -17894,13 +17894,13 @@
               },
               {
                 "min_level": 11,
-                "max_level": 11,
+                "max_level": 15,
                 "species": "SPECIES_EKANS"
               },
               {
-                "min_level": 15,
+                "min_level": 11,
                 "max_level": 15,
-                "species": "SPECIES_EKANS"
+                "species": "SPECIES_SANDSHREW"
               },
               {
                 "min_level": 13,
@@ -18032,13 +18032,13 @@
               },
               {
                 "min_level": 11,
-                "max_level": 11,
+                "max_level": 15,
                 "species": "SPECIES_EKANS"
               },
               {
-                "min_level": 15,
+                "min_level": 11,
                 "max_level": 15,
-                "species": "SPECIES_EKANS"
+                "species": "SPECIES_SANDSHREW"
               },
               {
                 "min_level": 13,
@@ -18341,7 +18341,7 @@
               {
                 "min_level": 12,
                 "max_level": 12,
-                "species": "SPECIES_EKANS"
+                "species": "SPECIES_SANDSHREW"
               },
               {
                 "min_level": 13,
@@ -18369,9 +18369,9 @@
                 "species": "SPECIES_SPEAROW"
               },
               {
-                "min_level": 12,
-                "max_level": 12,
-                "species": "SPECIES_EKANS"
+                "min_level": 15,
+                "max_level": 15,
+                "species": "SPECIES_SANDSHREW"
               },
               {
                 "min_level": 15,
@@ -18637,8 +18637,8 @@
             "encounter_rate": 21,
             "mons": [
               {
-                "min_level": 24,
-                "max_level": 24,
+                "min_level": 22,
+                "max_level": 26,
                 "species": "SPECIES_ODDISH"
               },
               {
@@ -18648,8 +18648,8 @@
               },
               {
                 "min_level": 22,
-                "max_level": 22,
-                "species": "SPECIES_ODDISH"
+                "max_level": 26,
+                "species": "SPECIES_BELLSPROUT"
               },
               {
                 "min_level": 23,
@@ -18667,9 +18667,9 @@
                 "species": "SPECIES_VENONAT"
               },
               {
-                "min_level": 26,
+                "min_level": 22,
                 "max_level": 26,
-                "species": "SPECIES_ODDISH"
+                "species": "SPECIES_BELLSPROUT"
               },
               {
                 "min_level": 27,
@@ -18677,9 +18677,9 @@
                 "species": "SPECIES_PIDGEY"
               },
               {
-                "min_level": 23,
-                "max_level": 23,
-                "species": "SPECIES_PIDGEY"
+                "min_level": 28,
+                "max_level": 28,
+                "species": "SPECIES_WEEPINBELL"
               },
               {
                 "min_level": 28,
@@ -18687,9 +18687,9 @@
                 "species": "SPECIES_GLOOM"
               },
               {
-                "min_level": 23,
-                "max_level": 23,
-                "species": "SPECIES_PIDGEY"
+                "min_level": 30,
+                "max_level": 30,
+                "species": "SPECIES_WEEPINBELL"
               },
               {
                 "min_level": 30,
@@ -18945,8 +18945,8 @@
             "encounter_rate": 21,
             "mons": [
               {
-                "min_level": 24,
-                "max_level": 24,
+                "min_level": 22,
+                "max_level": 26,
                 "species": "SPECIES_ODDISH"
               },
               {
@@ -18956,8 +18956,8 @@
               },
               {
                 "min_level": 22,
-                "max_level": 22,
-                "species": "SPECIES_ODDISH"
+                "max_level": 26,
+                "species": "SPECIES_BELLSPROUT"
               },
               {
                 "min_level": 27,
@@ -18975,9 +18975,9 @@
                 "species": "SPECIES_VENONAT"
               },
               {
-                "min_level": 26,
+                "min_level": 22,
                 "max_level": 26,
-                "species": "SPECIES_ODDISH"
+                "species": "SPECIES_BELLSPROUT"
               },
               {
                 "min_level": 25,
@@ -18997,7 +18997,7 @@
               {
                 "min_level": 29,
                 "max_level": 29,
-                "species": "SPECIES_PIDGEOTTO"
+                "species": "SPECIES_WEEPINBELL"
               },
               {
                 "min_level": 30,
@@ -19253,8 +19253,8 @@
             "encounter_rate": 21,
             "mons": [
               {
-                "min_level": 24,
-                "max_level": 24,
+                "min_level": 22,
+                "max_level": 26,
                 "species": "SPECIES_ODDISH"
               },
               {
@@ -19264,8 +19264,8 @@
               },
               {
                 "min_level": 22,
-                "max_level": 22,
-                "species": "SPECIES_ODDISH"
+                "max_level": 26,
+                "species": "SPECIES_BELLSPROUT"
               },
               {
                 "min_level": 23,
@@ -19283,9 +19283,9 @@
                 "species": "SPECIES_VENONAT"
               },
               {
-                "min_level": 26,
+                "min_level": 22,
                 "max_level": 26,
-                "species": "SPECIES_ODDISH"
+                "species": "SPECIES_BELLSPROUT"
               },
               {
                 "min_level": 30,
@@ -19293,9 +19293,9 @@
                 "species": "SPECIES_GLOOM"
               },
               {
-                "min_level": 23,
-                "max_level": 23,
-                "species": "SPECIES_DITTO"
+                "min_level": 30,
+                "max_level": 30,
+                "species": "SPECIES_WEEPINBELL"
               },
               {
                 "min_level": 29,
@@ -19391,8 +19391,8 @@
             "encounter_rate": 21,
             "mons": [
               {
-                "min_level": 24,
-                "max_level": 24,
+                "min_level": 22,
+                "max_level": 26,
                 "species": "SPECIES_ODDISH"
               },
               {
@@ -19402,8 +19402,8 @@
               },
               {
                 "min_level": 22,
-                "max_level": 22,
-                "species": "SPECIES_ODDISH"
+                "max_level": 26,
+                "species": "SPECIES_BELLSPROUT"
               },
               {
                 "min_level": 27,
@@ -19421,9 +19421,9 @@
                 "species": "SPECIES_VENONAT"
               },
               {
-                "min_level": 26,
+                "min_level": 22,
                 "max_level": 26,
-                "species": "SPECIES_ODDISH"
+                "species": "SPECIES_BELLSPROUT"
               },
               {
                 "min_level": 25,
@@ -19441,9 +19441,9 @@
                 "species": "SPECIES_GLOOM"
               },
               {
-                "min_level": 29,
-                "max_level": 29,
-                "species": "SPECIES_PIDGEOTTO"
+                "min_level": 30,
+                "max_level": 30,
+                "species": "SPECIES_WEEPINBELL"
               },
               {
                 "min_level": 30,
@@ -20339,14 +20339,14 @@
                 "species": "SPECIES_TANGELA"
               },
               {
-                "min_level": 18,
-                "max_level": 18,
-                "species": "SPECIES_TANGELA"
+                "min_level": 5,
+                "max_level": 5,
+                "species": "SPECIES_CHARMANDER"
               },
               {
-                "min_level": 27,
-                "max_level": 27,
-                "species": "SPECIES_TANGELA"
+                "min_level": 5,
+                "max_level": 5,
+                "species": "SPECIES_BULBASAUR"
               },
               {
                 "min_level": 17,
@@ -20434,9 +20434,9 @@
                 "species": "SPECIES_GYARADOS"
               },
               {
-                "min_level": 25,
-                "max_level": 35,
-                "species": "SPECIES_SEADRA"
+                "min_level": 5,
+                "max_level": 5,
+                "species": "SPECIES_SQUIRTLE"
               },
               {
                 "min_level": 25,
@@ -20987,7 +20987,7 @@
               {
                 "min_level": 20,
                 "max_level": 25,
-                "species": "SPECIES_PSYDUCK"
+                "species": "SPECIES_SLOWPOKE"
               },
               {
                 "min_level": 25,
@@ -21244,13 +21244,13 @@
               },
               {
                 "min_level": 32,
-                "max_level": 32,
+                "max_level": 34,
                 "species": "SPECIES_EKANS"
               },
               {
-                "min_level": 34,
+                "min_level": 32,
                 "max_level": 34,
-                "species": "SPECIES_EKANS"
+                "species": "SPECIES_SANDSHREW"
               },
               {
                 "min_level": 42,
@@ -21268,9 +21268,9 @@
                 "species": "SPECIES_SPEAROW"
               },
               {
-                "min_level": 42,
-                "max_level": 42,
-                "species": "SPECIES_FEAROW"
+                "min_level": 44,
+                "max_level": 44,
+                "species": "SPECIES_SANDSLASH"
               },
               {
                 "min_level": 32,
@@ -21295,7 +21295,7 @@
               {
                 "min_level": 20,
                 "max_level": 25,
-                "species": "SPECIES_PSYDUCK"
+                "species": "SPECIES_SLOWPOKE"
               },
               {
                 "min_level": 25,
@@ -21547,13 +21547,13 @@
               },
               {
                 "min_level": 12,
-                "max_level": 12,
+                "max_level": 13,
                 "species": "SPECIES_ODDISH"
               },
               {
-                "min_level": 13,
+                "min_level": 12,
                 "max_level": 13,
-                "species": "SPECIES_ODDISH"
+                "species": "SPECIES_BELLSPROUT"
               },
               {
                 "min_level": 10,
@@ -21561,9 +21561,9 @@
                 "species": "SPECIES_ABRA"
               },
               {
-                "min_level": 13,
-                "max_level": 13,
-                "species": "SPECIES_PIDGEY"
+                "min_level": 14,
+                "max_level": 14,
+                "species": "SPECIES_BELLSPROUT"
               },
               {
                 "min_level": 14,
@@ -21859,9 +21859,9 @@
                 "species": "SPECIES_ODDISH"
               },
               {
-                "min_level": 13,
-                "max_level": 13,
-                "species": "SPECIES_ODDISH"
+                "min_level": 14,
+                "max_level": 14,
+                "species": "SPECIES_BELLSPROUT"
               },
               {
                 "min_level": 11,
@@ -21869,9 +21869,9 @@
                 "species": "SPECIES_ABRA"
               },
               {
-                "min_level": 11,
-                "max_level": 11,
-                "species": "SPECIES_PIDGEY"
+                "min_level": 12,
+                "max_level": 12,
+                "species": "SPECIES_BELLSPROUT"
               },
               {
                 "min_level": 12,
@@ -21911,7 +21911,7 @@
               {
                 "min_level": 20,
                 "max_level": 25,
-                "species": "SPECIES_PSYDUCK"
+                "species": "SPECIES_SLOWPOKE"
               },
               {
                 "min_level": 25,
@@ -22204,7 +22204,7 @@
               {
                 "min_level": 15,
                 "max_level": 25,
-                "species": "SPECIES_HORSEA"
+                "species": "SPECIES_STARYU"
               },
               {
                 "min_level": 15,
@@ -22332,7 +22332,7 @@
               {
                 "min_level": 20,
                 "max_level": 25,
-                "species": "SPECIES_PSYDUCK"
+                "species": "SPECIES_SLOWPOKE"
               },
               {
                 "min_level": 25,
@@ -22738,7 +22738,7 @@
               {
                 "min_level": 15,
                 "max_level": 25,
-                "species": "SPECIES_HORSEA"
+                "species": "SPECIES_STARYU"
               },
               {
                 "min_level": 15,
@@ -22866,10 +22866,10 @@
               {
                 "min_level": 10,
                 "max_level": 20,
-                "species": "SPECIES_PSYDUCK"
+                "species": "SPECIES_SLOWPOKE"
               },
               {
-                "min_level": 20,
+                "min_level": 10,
                 "max_level": 30,
                 "species": "SPECIES_PSYDUCK"
               },
@@ -23044,7 +23044,7 @@
               {
                 "min_level": 20,
                 "max_level": 25,
-                "species": "SPECIES_PSYDUCK"
+                "species": "SPECIES_SLOWPOKE"
               },
               {
                 "min_level": 25,
@@ -23272,7 +23272,7 @@
               {
                 "min_level": 15,
                 "max_level": 25,
-                "species": "SPECIES_HORSEA"
+                "species": "SPECIES_STARYU"
               },
               {
                 "min_level": 15,

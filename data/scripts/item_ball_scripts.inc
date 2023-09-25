@@ -398,6 +398,17 @@ CeruleanCave_B1F_EventScript_ItemUltraBall::
 	finditem ITEM_ULTRA_BALL
 	end
 
+CeruleanCave_B1F_EventScript_ItemFossil::
+	setflag FLAG_HIDE_CERULEAN_CAVE_B1F_FOSSIL
+	goto_if_set FLAG_GOT_HELIX_FOSSIL, CeruleanCave_B1F_EventScript_ItemDomeFossil
+	goto_if_set FLAG_REVIVED_HELIX, CeruleanCave_B1F_EventScript_ItemDomeFossil
+	finditem ITEM_HELIX_FOSSIL
+	end
+
+CeruleanCave_B1F_EventScript_ItemDomeFossil::
+	finditem ITEM_DOME_FOSSIL
+	end
+
 FuchsiaCity_WardensHouse_EventScript_ItemRareCandy::
 	finditem ITEM_RARE_CANDY
 	end
