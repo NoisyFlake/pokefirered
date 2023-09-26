@@ -1224,6 +1224,13 @@ EventScript_DoInGameTrade::
 	waitstate
 	lock
 	faceplayer
+	msgbox Text_GiveNicknameToThisMon, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, EventScript_DoInGameTradeDone
+	copyvar VAR_0x8004, VAR_0x8005
+	call EventScript_ChangePokemonNickname
+	return
+
+EventScript_DoInGameTradeDone::
 	return
 
 EventScript_VsSeekerChargingDone::
