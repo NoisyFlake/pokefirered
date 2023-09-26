@@ -2525,7 +2525,7 @@ void CreateInGameTradePokemon(void)
 
 void CheckMonEvolvesByTrade(void) {
     struct Pokemon *mon = &gPlayerParty[gSpecialVar_0x8005];
-    gSpecialVar_0x8004 = GetEvolutionTargetSpecies(mon, EVO_MODE_TRADE, ITEM_NONE);
+    gSpecialVar_0x8004 = GetEvolutionTargetSpecies(mon, EVO_MODE_TRADE_CHECK, ITEM_NONE);
 }
 
 void EvolveMonByTrade(void) {
