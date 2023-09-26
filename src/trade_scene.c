@@ -2523,6 +2523,21 @@ void CreateInGameTradePokemon(void)
     CreateInGameTradePokemonInternal(gSpecialVar_0x8005, gSpecialVar_0x8004);
 }
 
+void CheckMonEvolvesByTrade(void) {
+    struct Pokemon *mon = &gPlayerParty[gSpecialVar_0x8005];
+    gSpecialVar_0x8004 = GetEvolutionTargetSpecies(mon, EVO_MODE_TRADE, ITEM_NONE);
+}
+
+void EvolveMonByTrade(void) {
+    struct Pokemon *mon = &gPlayerParty[gSpecialVar_0x8005];
+    u16 targetSpecies = GetEvolutionTargetSpecies(mon, EVO_MODE_TRADE, ITEM_NONE);
+
+    if (targetSpecies != SPECIES_NONE) {
+        gCB2_AfterEvolution = CB2_ReturnToField;
+        BeginEvolutionScene(mon, targetSpecies, TRUE, gSpecialVar_0x8005);
+    }
+}
+
 static void CB2_UpdateLinkTrade(void)
 {
     if (DoTradeAnim() == TRUE)

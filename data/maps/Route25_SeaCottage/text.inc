@@ -88,9 +88,18 @@ Route25_SeaCottage_Text_SSAnnePartyYouGoInstead::
     .string "Go on and have a good time.$"
 
 Route25_SeaCottage_Text_CheckOutRareMonsOnPC::
-    .string "BILL: Feel like checking out some\n"
-    .string "of my rare POKéMON on my PC?\p"
+    .string "BILL: Some POKéMON only evolve by\n"
+    .string "trading. However, my TELEPORTER\p"
+    .string "can simulate a trade if you want.\n"
     .string "Go on, check out my PC.$"
+
+Route25_SeaCottage_Text_SelfTrade_AskPlayer:
+	.string "Do you want to send a POKéMON\n"
+	.string "through BILL's TELEPORTER?$"
+
+Route25_SeaCottage_Text_SelfTrade_NoEffect:
+	.string "This POKéMON cannot be sent\n"
+	.string "through the TELEPORTER.$"
 
 Route25_SeaCottage_Text_TeleporterIsDisplayed::
     .string "TELEPORTER is displayed on the PC\n"
