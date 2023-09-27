@@ -56,6 +56,13 @@ enum PokemonSummaryScreenStat
     PSS_STAT_SPE
 };
 
+enum PokemonSummaryScreenStatMode
+{
+    PSS_STATMODE_STATS,
+    PSS_STATMODE_IVS,
+    PSS_STATMODE_EVS
+};
+
 #define TAG_PSS_UNK_64 0x64
 #define TAG_PSS_UNK_65 0x65
 #define TAG_PSS_UNK_66 0x66
