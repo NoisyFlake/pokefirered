@@ -3914,8 +3914,7 @@ static void ReturnFromBattleToOverworld(void)
 #endif                                                                                    // & with B_OUTCOME_WON (1) will return TRUE and deactivates the roamer.
                 SetRoamerInactive();
                 
-                u16 species = GetMonData(&gEnemyParty[0], MON_DATA_SPECIES, 0);
-                switch(species)
+                switch(GetMonData(&gEnemyParty[0], MON_DATA_SPECIES, 0))
                 {
                     case SPECIES_RAIKOU:
                         FlagSet(FLAG_CAUGHT_RAIKOU);
