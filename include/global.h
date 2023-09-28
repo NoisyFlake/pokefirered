@@ -800,7 +800,8 @@ struct SaveBlock1
     /*0x30D0*/ struct Roamer roamer;
     /*0x30EC*/ struct EnigmaBerry enigmaBerry;
     /*0x3120*/ struct MysteryGiftSave mysteryGift;
-    /*0x348C*/ u8 unused_348C[28];
+    /*0x348C*/ u8 unused_348C[26];
+    /*0x34A6*/ u16 lastViewedPokedexEntry;
     /*0x34A8*/ u16 registeredItemL; // registered for use with L button
     /*0x34AA*/ u16 registeredItemR; // registered for use with R button
     /*0x34AC*/ struct ItemSlot bagPocket_Medicine[BAG_MEDICINE_COUNT];

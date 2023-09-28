@@ -1086,6 +1086,20 @@ static void Task_PokedexScreen(u8 taskId)
         {
             sPokedexScreenData->state = 1;
         }
+        if ((JOY_NEW(SELECT_BUTTON)))
+        {
+            if (gSaveBlock1Ptr->lastViewedPokedexEntry) {
+                RemoveScrollIndicatorArrowPair(sPokedexScreenData->scrollArrowsTaskId);
+                BeginNormalPaletteFade(0xFFFF7FFF, 0, 0, 16, RGB_WHITEALPHA);
+                sPokedexScreenData->dexSpecies = gSaveBlock1Ptr->lastViewedPokedexEntry;
+
+                sPokedexScreenData->kantoOrderMenuCursorPos = 0;
+                sPokedexScreenData->kantoOrderMenuItemsAbove = 0;
+                sPokedexScreenData->nationalOrderMenuCursorPos = 0;
+                sPokedexScreenData->nationalOrderMenuItemsAbove = 0;
+                sPokedexScreenData->state = 10;
+            }
+        }
         break;
     case 7:
         DestroyListMenuTask(sPokedexScreenData->modeSelectListMenuId, &sPokedexScreenData->modeSelectCursorPos, &sPokedexScreenData->modeSelectItemsAbove);
@@ -1117,6 +1131,16 @@ static void Task_PokedexScreen(u8 taskId)
         DexScreen_RemoveWindow(&sPokedexScreenData->dexCountsWindowId);
         gTasks[taskId].func = Task_DexScreen_NumericalOrder;
         sPokedexScreenData->state = 0;
+        break;
+    case 10:
+        DestroyListMenuTask(sPokedexScreenData->modeSelectListMenuId, &sPokedexScreenData->modeSelectCursorPos, &sPokedexScreenData->modeSelectItemsAbove);
+        HideBg(1);
+        DexScreen_RemoveWindow(&sPokedexScreenData->modeSelectWindowId);
+        DexScreen_RemoveWindow(&sPokedexScreenData->selectionIconWindowId);
+        DexScreen_RemoveWindow(&sPokedexScreenData->dexCountsWindowId);
+        DexScreen_InitGfxForNumericalOrderList();
+        gTasks[taskId].func = Task_DexScreen_NumericalOrder;
+        sPokedexScreenData->state = 7;
         break;
     }
 }
@@ -1756,6 +1780,7 @@ static void Task_DexScreen_CategorySubmenu(u8 taskId)
             CopyBgTilemapBufferToVram(1);
             CopyBgTilemapBufferToVram(0);
             PlayCry_NormalNoDucking(sPokedexScreenData->dexSpecies, 0, CRY_VOLUME_RS, CRY_PRIORITY_NORMAL);
+            gSaveBlock1Ptr->lastViewedPokedexEntry = sPokedexScreenData->dexSpecies;
             sPokedexScreenData->data[0] = 0;
             sPokedexScreenData->state = 17;
         }
@@ -1932,6 +1957,7 @@ static void Task_DexScreen_ShowMonPage(u8 taskId)
         CopyBgTilemapBufferToVram(1);
         CopyBgTilemapBufferToVram(0);
         PlayCry_NormalNoDucking(sPokedexScreenData->dexSpecies, 0, CRY_VOLUME_RS, CRY_PRIORITY_NORMAL);
+        gSaveBlock1Ptr->lastViewedPokedexEntry = sPokedexScreenData->dexSpecies;
         sPokedexScreenData->state = 4;
         break;
     case 4:
