@@ -27,7 +27,7 @@ CeladonCity_GameCorner_PrizeRoom_EventScript_ChoosePrizeMon::
 	case 0, CeladonCity_GameCorner_PrizeRoom_EventScript_Abra
 	case 1, CeladonCity_GameCorner_PrizeRoom_EventScript_Clefairy
 	case 2, CeladonCity_GameCorner_PrizeRoom_EventScript_DratiniPinsir
-	case 3, CeladonCity_GameCorner_PrizeRoom_EventScript_ScytherDratini
+	case 3, CeladonCity_GameCorner_PrizeRoom_EventScript_EeveeDratini
 	case 4, CeladonCity_GameCorner_PrizeRoom_EventScript_Porygon
 	case 5, CeladonCity_GameCorner_PrizeRoom_EventScript_EndPrizeExchange
 	case 127, CeladonCity_GameCorner_PrizeRoom_EventScript_EndPrizeExchange
@@ -77,9 +77,9 @@ CeladonCity_GameCorner_PrizeRoom_EventScript_DratiniPinsir::
 	goto CeladonCity_GameCorner_PrizeRoom_EventScript_ConfirmPrizeMon
 	end
 
-CeladonCity_GameCorner_PrizeRoom_EventScript_ScytherDratini::
+CeladonCity_GameCorner_PrizeRoom_EventScript_EeveeDratini::
 	.ifdef FIRERED
-	setvar VAR_TEMP_1, SPECIES_SCYTHER
+	setvar VAR_TEMP_1, SPECIES_EEVEE
 	setvar VAR_TEMP_2, 5500
 	.else
 	.ifdef LEAFGREEN
@@ -114,7 +114,7 @@ CeladonCity_GameCorner_PrizeRoom_EventScript_ConfirmPrizeMon::
 	case SPECIES_ABRA,     CeladonCity_GameCorner_PrizeRoom_EventScript_GiveAbra
 	case SPECIES_CLEFAIRY, CeladonCity_GameCorner_PrizeRoom_EventScript_GiveClefairy
 	case SPECIES_DRATINI,  CeladonCity_GameCorner_PrizeRoom_EventScript_GiveDratini
-	case SPECIES_SCYTHER,  CeladonCity_GameCorner_PrizeRoom_EventScript_GiveScyther
+	case SPECIES_EEVEE,  CeladonCity_GameCorner_PrizeRoom_EventScript_GiveEevee
 	case SPECIES_PORYGON,  CeladonCity_GameCorner_PrizeRoom_EventScript_GivePorygon
 	case SPECIES_PINSIR,   CeladonCity_GameCorner_PrizeRoom_EventScript_GivePinsir
 	end
@@ -152,7 +152,7 @@ CeladonCity_GameCorner_PrizeRoom_EventScript_GiveDratini::
 	goto CeladonCity_GameCorner_PrizeRoom_EventScript_CheckReceivedMon
 	end
 
-CeladonCity_GameCorner_PrizeRoom_EventScript_GiveScyther::
+CeladonCity_GameCorner_PrizeRoom_EventScript_GiveEevee::
 	givemon VAR_TEMP_1, 25
 	goto CeladonCity_GameCorner_PrizeRoom_EventScript_CheckReceivedMon
 	end

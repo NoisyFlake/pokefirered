@@ -773,7 +773,7 @@ extern const u8 gText_NoThanks[];
 extern const u8 gText_Abra_180Coins[];
 extern const u8 gText_Clefairy_500Coins[];
 extern const u8 gText_Dratini_2800Coins[];
-extern const u8 gText_Scyther_5500Coins[];
+extern const u8 gText_Eevee_5500Coins[];
 extern const u8 gText_Porygon_9999Coins[];
 extern const u8 gText_Abra_120Coins[];
 extern const u8 gText_Clefairy_750Coins[];
