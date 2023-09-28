@@ -11,6 +11,7 @@
 #include "constants/event_object_movement.h"
 #include "constants/event_objects.h"
 #include "constants/trainer_types.h"
+#include "event_data.h"
 
 typedef u8 (*TrainerApproachFunc)(struct ObjectEvent *, s16, s16, s16);
 typedef bool8 (*TrainerSeeFunc)(u8, struct Task *, struct ObjectEvent *);
@@ -88,6 +89,13 @@ static const TrainerSeeFunc sTrainerSeeFuncList2[] = {
 bool8 CheckForTrainersWantingBattle(void)
 {
     u8 i;
+
+#ifndef NDEBUG
+    if (FlagGet(FLAG_SYS_NO_ENCOUNTERS)) {
+        return FALSE;
+    }
+#endif
+
     if (QL_IsTrainerSightDisabled() == TRUE)
         return FALSE;
 

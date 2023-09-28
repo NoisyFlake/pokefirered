@@ -756,6 +756,12 @@ static bool8 HandleWildEncounterCooldown(u32 currMetatileAttrs)
 
 bool8 TryStandardWildEncounter(u32 currMetatileAttrs)
 {
+#ifndef NDEBUG
+    if (FlagGet(FLAG_SYS_NO_ENCOUNTERS)) {
+        return FALSE;
+    }
+#endif
+
     if (!HandleWildEncounterCooldown(currMetatileAttrs))
     {
         sWildEncounterData.prevMetatileBehavior = ExtractMetatileAttribute(currMetatileAttrs, METATILE_ATTRIBUTE_BEHAVIOR);
