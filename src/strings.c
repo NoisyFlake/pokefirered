@@ -888,6 +888,7 @@ const u8 gText_BattleScene[] = _("BATTLE SCENE");
 const u8 gText_BattleStyle[] = _("BATTLE STYLE");
 const u8 gText_Sound[] = _("SOUND");
 const u8 gText_ButtonMode[] = _("ONE-HAND MODE");
+const u8 gText_AutoRun[] = _("AUTO RUN");
 const u8 gText_Frame[] = _("FRAME");
 const u8 gText_OptionMenuCancel[] = _("CANCEL");
 const u8 gText_TextSpeedSlow[] = _("SLOW");
