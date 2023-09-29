@@ -1,4 +1,3 @@
-#undef NDEBUG
 #ifndef NDEBUG
 
 #include "global.h"
