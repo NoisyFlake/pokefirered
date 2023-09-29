@@ -181,7 +181,8 @@ static const u8 *const sAutoRunOptions[] =
 };
 
 static const u8 sOptionMenuPickSwitchCancelTextColor[] = {TEXT_DYNAMIC_COLOR_6, TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GRAY};
-static const u8 sOptionMenuTextColor[] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_LIGHT_RED, TEXT_COLOR_RED};
+static const u8 sOptionMenuTextColor[] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_LIGHT_GRAY};
+static const u8 sOptionMenuEnabledTextColor[] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_GREEN, TEXT_COLOR_LIGHT_GREEN};
 
 // Functions
 static void CB2_InitOptionMenu(void)
@@ -472,9 +473,11 @@ static void BufferOptionMenuString(u8 selection)
     u8 str[20];
     u8 buf[12];
     u8 dst[3];
+    u8 enabledColor[3];
     u8 x, y;
     
     memcpy(dst, sOptionMenuTextColor, 3);
+    memcpy(enabledColor, sOptionMenuEnabledTextColor, 3);
     x = 0x82;
     y = ((GetFontAttribute(FONT_NORMAL, FONTATTR_MAX_LETTER_HEIGHT) - 1) * selection) + 2;
     FillWindowPixelRect(1, 1, x, y, 0x46, GetFontAttribute(FONT_NORMAL, FONTATTR_MAX_LETTER_HEIGHT));
@@ -482,7 +485,7 @@ static void BufferOptionMenuString(u8 selection)
     switch (selection)
     {
     case MENUITEM_BATTLESCENE:
-        AddTextPrinterParameterized3(1, FONT_NORMAL, x, y, dst, -1, sBattleSceneOptions[sOptionMenuPtr->option[selection]]);
+        AddTextPrinterParameterized3(1, FONT_NORMAL, x, y, sOptionMenuPtr->option[selection] == 0 ? enabledColor : dst, -1, sBattleSceneOptions[sOptionMenuPtr->option[selection]]);
         break;
     case MENUITEM_BATTLESTYLE:
         AddTextPrinterParameterized3(1, FONT_NORMAL, x, y, dst, -1, sBattleStyleOptions[sOptionMenuPtr->option[selection]]);
@@ -491,10 +494,10 @@ static void BufferOptionMenuString(u8 selection)
         AddTextPrinterParameterized3(1, FONT_NORMAL, x, y, dst, -1, sSoundOptions[sOptionMenuPtr->option[selection]]);
         break;
     case MENUITEM_BUTTONMODE:
-        AddTextPrinterParameterized3(1, FONT_NORMAL, x, y, dst, -1, sButtonTypeOptions[sOptionMenuPtr->option[selection]]);
+        AddTextPrinterParameterized3(1, FONT_NORMAL, x, y, sOptionMenuPtr->option[selection] == 1 ? enabledColor : dst, -1, sButtonTypeOptions[sOptionMenuPtr->option[selection]]);
         break;
     case MENUITEM_AUTORUN:
-        AddTextPrinterParameterized3(1, FONT_NORMAL, x, y, dst, -1, sAutoRunOptions[sOptionMenuPtr->option[selection]]);
+        AddTextPrinterParameterized3(1, FONT_NORMAL, x, y, sOptionMenuPtr->option[selection] == 1 ? enabledColor : dst, -1, sAutoRunOptions[sOptionMenuPtr->option[selection]]);
         break;
     case MENUITEM_FRAMETYPE:
         StringCopy(str, gText_FrameType);
