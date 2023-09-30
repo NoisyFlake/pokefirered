@@ -1675,7 +1675,7 @@ static void PokeSum_ShowSpritesBeforePageFlip(void)
     switch (newPage)
     {
     case PSS_PAGE_INFO:
-        ShowOrHideHpBarObjs(FALSE);
+        ShowOrHideHpBarObjs(sMonSummaryScreen->currentStatMode != PSS_STATMODE_STATS);
         ShowOrHideExpBarObjs(FALSE);
         break;
     case PSS_PAGE_SKILLS:
@@ -1683,7 +1683,7 @@ static void PokeSum_ShowSpritesBeforePageFlip(void)
     case PSS_PAGE_MOVES:
         if (sMonSummaryScreen->pageFlipDirection == 0)
         {
-            ShowOrHideHpBarObjs(FALSE);
+            ShowOrHideHpBarObjs(sMonSummaryScreen->currentStatMode != PSS_STATMODE_STATS);
             ShowOrHideExpBarObjs(FALSE);
         }
         else
