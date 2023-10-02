@@ -328,6 +328,7 @@ static void HandleInputChooseAction(void)
         // Open the Pokeballs bag in wild battles
         if(!(gBattleTypeFlags & BATTLE_TYPE_TRAINER)) 
         {
+            PlaySE(SE_SELECT);
             gBagMenuState.pocket = OPEN_BAG_POKEBALLS;
             BtlController_EmitTwoReturnValues(1, B_ACTION_USE_ITEM, 0);
             PlayerBufferExecCompleted();
