@@ -28,9 +28,7 @@ PewterCity_Gym_Text_BrockDefeat::
     .string "{FONT_MALE}Just having the BOULDERBADGE makes\n"
     .string "your POKéMON more powerful.\p"
     .string "It also enables the use of the\n"
-    .string "move FLASH outside of battle.\p"
-    .string "Of course, a POKéMON must know the\n"
-    .string "move FLASH to use it.$"
+    .string "move FLASH outside of battle.$"
 
 PewterCity_Gym_Text_TakeThisWithYou::
     .string "Wait!\n"
