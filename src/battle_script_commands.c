@@ -3203,8 +3203,6 @@ static void Cmd_getexp(void)
                 PlayBGM(MUS_VICTORY_WILD);
                 // gBattleStruct->wildVictorySong++;
             }
-
-            PrepareStringBattle(STRINGID_PKMNGAINEDEXP, 0);
         }
         // fall through
     case 2: // set exp value to the poke in expgetter_id
@@ -3389,6 +3387,7 @@ static void Cmd_getexp(void)
                 // This is the first time we're here, so reset expGetterMonId which will be looped later
                 if (gBattleScripting.drawlvlupboxState == 0) {
                     gBattleStruct->expGetterMonId = 0;
+                    PrepareStringBattle(STRINGID_PKMNGAINEDEXP, 0);
                 }
 
                 Cmd_drawlvlupbox();
@@ -5775,8 +5774,7 @@ static void Cmd_drawlvlupbox(void)
         }
         break;
     case 8:
-        // If the mon did level up, we're displaying a message that the user has to click away, so we don't need to wait for input here as well
-        if (gMain.newKeys != 0 || gBattleScripting.monDidLevelUp)
+        if (gMain.newKeys != 0)
         {
             if (!gBattleScripting.monDidLevelUp) 
                 PlaySE(SE_SELECT);
