@@ -892,16 +892,15 @@ Text_WelcomeWantToHealPkmn::
 	.string "POKéMON back to perfect health?$"
 
 Text_TakeYourPkmnForFewSeconds::
-	.string "Okay, I'll take your POKéMON for a\n"
-	.string "few seconds.$"
+	.string "Welcome to our POKéMON CENTER!\n"
+	.string "I'll heal your POKéMON now.$"
 
 Text_WeHopeToSeeYouAgain::
 	.string "We hope to see you again!$"
 
 Text_RestoredPkmnToFullHealth::
-	.string "Thank you for waiting.\n"
-	.string "We've restored your POKéMON to\l"
-	.string "full health.$"
+	.string "Thank you for waiting. We've restored\n"
+	.string "your POKéMON to full health.$"
 
 	.include "data/text/surf.inc"
 
