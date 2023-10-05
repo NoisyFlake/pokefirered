@@ -329,6 +329,11 @@ static void HandleInputChooseAction(void)
         if(!(gBattleTypeFlags & BATTLE_TYPE_TRAINER)) 
         {
             PlaySE(SE_SELECT);
+
+            ActionSelectionDestroyCursorAt(gActionSelectionCursor[gActiveBattler]);
+            gActionSelectionCursor[gActiveBattler] = 1;
+            ActionSelectionCreateCursorAt(gActionSelectionCursor[gActiveBattler], 0);
+
             gBagMenuState.pocket = OPEN_BAG_POKEBALLS;
             BtlController_EmitTwoReturnValues(1, B_ACTION_USE_ITEM, 0);
             PlayerBufferExecCompleted();
