@@ -526,6 +526,7 @@ struct BattleScripting
     u8 levelUpHP;
     bool8 monCaught;
     bool8 monDidLevelUp;
+    bool8 actionExecuted;
 };
 
 struct BattleSpriteInfo

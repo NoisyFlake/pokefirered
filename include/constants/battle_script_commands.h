@@ -28,6 +28,7 @@
 #define sLVLUP_HP                    gBattleScripting + 0x23 // levelUpHP
 #define sMON_CAUGHT                  gBattleScripting + 0x24 // monCaught
 #define sMON_DID_LVLUP               gBattleScripting + 0x25 // monDidLevelUp
+#define sACTION_EXECUTED             gBattleScripting + 0x26 // actionExecuted
 
 // Array entries for battle communication
 #define MULTIUSE_STATE          0

@@ -226,8 +226,10 @@ static void HandleInputChooseAction(void)
 
     DoBounceEffect(gActiveBattler, BOUNCE_HEALTHBOX, 7, 1);
     DoBounceEffect(gActiveBattler, BOUNCE_MON, 7, 1);
+
     if (JOY_NEW(A_BUTTON))
     {
+        gBattleScripting.actionExecuted = TRUE;
         PlaySE(SE_SELECT);
 
         switch (gActionSelectionCursor[gActiveBattler])
@@ -249,6 +251,7 @@ static void HandleInputChooseAction(void)
     }
     else if (JOY_NEW(DPAD_LEFT))
     {
+        gBattleScripting.actionExecuted = TRUE;
         if (gActionSelectionCursor[gActiveBattler] & 1) // if is B_ACTION_USE_ITEM or B_ACTION_RUN
         {
             PlaySE(SE_SELECT);
@@ -259,6 +262,7 @@ static void HandleInputChooseAction(void)
     }
     else if (JOY_NEW(DPAD_RIGHT))
     {
+        gBattleScripting.actionExecuted = TRUE;
         if (!(gActionSelectionCursor[gActiveBattler] & 1)) // if is B_ACTION_USE_MOVE or B_ACTION_SWITCH
         {
             PlaySE(SE_SELECT);
@@ -269,6 +273,7 @@ static void HandleInputChooseAction(void)
     }
     else if (JOY_NEW(DPAD_UP))
     {
+        gBattleScripting.actionExecuted = TRUE;
         if (gActionSelectionCursor[gActiveBattler] & 2) // if is B_ACTION_SWITCH or B_ACTION_RUN
         {
             PlaySE(SE_SELECT);
@@ -279,6 +284,7 @@ static void HandleInputChooseAction(void)
     }
     else if (JOY_NEW(DPAD_DOWN))
     {
+        gBattleScripting.actionExecuted = TRUE;
         if (!(gActionSelectionCursor[gActiveBattler] & 2)) // if is B_ACTION_USE_MOVE or B_ACTION_USE_ITEM
         {
             PlaySE(SE_SELECT);
@@ -306,7 +312,7 @@ static void HandleInputChooseAction(void)
             BtlController_EmitTwoReturnValues(1, B_ACTION_CANCEL_PARTNER, 0);
             PlayerBufferExecCompleted();
         } 
-        else if (!(gBattleTypeFlags & BATTLE_TYPE_TRAINER))
+        else if (!(gBattleTypeFlags & BATTLE_TYPE_TRAINER) && !gBattleScripting.actionExecuted)
         {
             if (gActionSelectionCursor[gActiveBattler] == 3) {
                 BtlController_EmitTwoReturnValues(1, B_ACTION_RUN, 0);
@@ -321,10 +327,13 @@ static void HandleInputChooseAction(void)
     }
     else if (JOY_NEW(START_BUTTON))
     {
+        gBattleScripting.actionExecuted = TRUE;
         SwapHpBarsWithHpText();
     }
     else if (JOY_NEW(SELECT_BUTTON))
     {
+        gBattleScripting.actionExecuted = TRUE;
+        
         // Open the Pokeballs bag in wild battles
         if(!(gBattleTypeFlags & BATTLE_TYPE_TRAINER)) 
         {

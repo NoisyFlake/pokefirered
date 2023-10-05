@@ -2239,6 +2239,7 @@ static void BattleStartClearSetData(void)
 
     gBattleScripting.battleStyle = gSaveBlock2Ptr->optionsBattleStyle;
     gBattleScripting.monCaught = FALSE;
+    gBattleScripting.actionExecuted = FALSE;
     gShowMoveStats = 0;
 
     gMultiHitCounter = 0;
