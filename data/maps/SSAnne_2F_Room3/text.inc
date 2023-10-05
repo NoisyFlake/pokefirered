@@ -7,6 +7,8 @@ SSAnne_2F_Room3_Text_SomeTreesCanBeCutDown::
     .string "using the move CUT.\p"
     .string "But remember this!\n"
     .string "CUT is an HM technique.\p"
-    .string "Once learned, it is not so easily\n"
-    .string "discarded.$"
+    .string "You don't have to teach it to\n"
+    .string "use it outside of battles.\p"
+    .string "Having a POKéMON in your party that\n"
+    .string "can learn the move is enough.$"
 

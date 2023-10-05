@@ -18,8 +18,9 @@ SSAnne_CaptainsOffice_Text_ThankYouHaveHMForCut::
     .string "technique if I weren't so ill…\p"
     .string "I know! You can have this!\n"
     .string "This HIDDEN MACHINE!\p"
-    .string "Teach CUT to your POKéMON, and\n"
-    .string "you can see it CUT anytime!$"
+    .string "Make sure to have a POKéMON in\n"
+    .string "your party that can learn CUT\p"
+    .string "to use it outside of battles!$"
 
 SSAnne_CaptainsOffice_Text_ObtainedHM01FromCaptain::
     .string "{PLAYER} obtained HM01\n"
