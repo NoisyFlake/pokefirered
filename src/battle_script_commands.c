@@ -3181,7 +3181,7 @@ static void Cmd_getexp(void)
             *exp = SAFE_DIV(calculatedExp, viaSentIn);
             if (*exp == 0)
                 *exp = 1;
-            gExpShareExp = SAFE_DIV(*exp, 2);
+            gExpShareExp = viaSentIn > 0 ? (*exp / 2) : (calculatedExp / 2); // If no sent in mon is alive, use base exp as reference
             if (gExpShareExp == 0)
                 gExpShareExp = 1;
 
