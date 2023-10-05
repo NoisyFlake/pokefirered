@@ -350,6 +350,7 @@ struct SaveBlock2
     /*0xB20*/ u8 filler_B20[0x400];
     /*0xF20*/ u32 encryptionKey;
     bool8 optionsAutoRun;
+    bool8 optionsExpShare;
     u8 itemFlags[ITEM_FLAGS_COUNT];
 }; // size: 0xF24
 

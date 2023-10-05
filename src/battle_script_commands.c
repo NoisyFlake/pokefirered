@@ -3175,20 +3175,30 @@ static void Cmd_getexp(void)
                     continue;
                 if (gBitTable[i] & sentIn)
                     viaSentIn++;
-                else
+                else if (gSaveBlock2Ptr->optionsExpShare)
                     viaExpShare++;
             }
 
             calculatedExp = gSpeciesInfo[gBattleMons[gBattlerFainted].species].expYield * gBattleMons[gBattlerFainted].level / 7;
 
             // Split the calculated EXP evenly across the party, but sent in mons receive twice as much as non-sent in mons
-            *exp = calculatedExp / (viaSentIn * 2 + viaExpShare) * 2;
-            if (*exp == 0)
-                *exp = 1;
-            gExpShareExp = calculatedExp / (viaSentIn * 2 + viaExpShare);
-            if (gExpShareExp == 0)
-                gExpShareExp = 1;
+            if (viaExpShare) {
+                *exp = calculatedExp / (viaSentIn * 2 + viaExpShare) * 2;
+                if (*exp == 0)
+                    *exp = 1;
 
+                gExpShareExp = calculatedExp / (viaSentIn * 2 + viaExpShare);
+                if (gExpShareExp == 0)
+                    gExpShareExp = 1;
+            } 
+            else 
+            {
+                *exp = SAFE_DIV(calculatedExp, viaSentIn);
+                if (*exp == 0)
+                    *exp = 1;
+                gExpShareExp = 0;
+            }
+            
             gBattleScripting.getexpState++;
             gBattleStruct->expGetterMonId = 0;
             gBattleStruct->sentInPokes = sentIn;
@@ -3214,15 +3224,18 @@ static void Cmd_getexp(void)
             else
                 holdEffect = ItemId_GetHoldEffect(item);
 
-            if (GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_LEVEL) == MAX_LEVEL)
+            if (!gSaveBlock2Ptr->optionsExpShare && !(gBattleStruct->sentInPokes & 1)) {
+                *(&gBattleStruct->sentInPokes) >>= 1;
+                gBattleScripting.getexpState = 3;
+                gBattleMoveDamage = 0; // used for exp
+            } else if (GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_LEVEL) == MAX_LEVEL)
             {
                 *(&gBattleStruct->sentInPokes) >>= 1;
-                gBattleScripting.getexpState = 5;
+                gBattleScripting.getexpState = 3;
                 gBattleMoveDamage = 0; // used for exp
             }
             else
             {
-
                 if (GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_HP))
                 {
                     if (gBattleStruct->sentInPokes & 1)

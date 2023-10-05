@@ -1517,7 +1517,7 @@ void DrawLevelUpWindowPg1(u16 windowId, u16 *gainedExp, u8 bgColor, u8 fgColor, 
     for (i = 0; i < PARTY_SIZE; i++)
     {
         GetMonData(&gPlayerParty[i], MON_DATA_NICKNAME, textbuf);
-        AddTextPrinterParameterized3(windowId, FONT_SMALL, 2, i * 15, textColor, TEXT_SKIP_DRAW, textbuf);
+        AddTextPrinterParameterized3(windowId, FONT_SMALL, 2, i * 15, gainedExp[i] > 0 ? textColor : disabledColor, TEXT_SKIP_DRAW, textbuf);
 
         if (strlen(textbuf) > 0) {
             textbuf[0] = CHAR_PLUS;
