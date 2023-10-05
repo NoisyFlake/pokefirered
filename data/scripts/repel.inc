@@ -13,7 +13,8 @@
 	bufferitemname 1, VAR_REPEL_LAST_USED
 	removeitem VAR_REPEL_LAST_USED, 1
 	playse SE_REPEL
-	msgbox gText_PlayerUsedVar2, MSGBOX_SIGN
+	message gText_PlayerUsedVar2
+	waitmessage
 	goto EventScript_RepelWoreOff_End
 EventScript_RepelWoreOff_ChooseNo:
 	closemessage
