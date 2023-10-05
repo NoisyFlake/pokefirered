@@ -3174,21 +3174,14 @@ static void Cmd_getexp(void)
                     continue;
                 if (gBitTable[i] & sentIn)
                     viaSentIn++;
-
-                item = GetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM);
-
-                if (item == ITEM_ENIGMA_BERRY)
-                    holdEffect = gSaveBlock1Ptr->enigmaBerry.holdEffect;
-                else
-                    holdEffect = ItemId_GetHoldEffect(item);
             }
 
             calculatedExp = gSpeciesInfo[gBattleMons[gBattlerFainted].species].expYield * gBattleMons[gBattlerFainted].level / 7;
 
-            *exp = calculatedExp;
+            *exp = SAFE_DIV(calculatedExp, viaSentIn);
             if (*exp == 0)
                 *exp = 1;
-            gExpShareExp = SAFE_DIV(calculatedExp, 2);
+            gExpShareExp = SAFE_DIV(*exp, 2);
             if (gExpShareExp == 0)
                 gExpShareExp = 1;
 
