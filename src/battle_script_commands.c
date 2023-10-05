@@ -3167,6 +3167,7 @@ static void Cmd_getexp(void)
         {
             u16 calculatedExp;
             s32 viaSentIn;
+            s32 viaExpShare = 0;
 
             for (viaSentIn = 0, i = 0; i < PARTY_SIZE; i++)
             {
@@ -3174,14 +3175,17 @@ static void Cmd_getexp(void)
                     continue;
                 if (gBitTable[i] & sentIn)
                     viaSentIn++;
+                else
+                    viaExpShare++;
             }
 
             calculatedExp = gSpeciesInfo[gBattleMons[gBattlerFainted].species].expYield * gBattleMons[gBattlerFainted].level / 7;
 
-            *exp = SAFE_DIV(calculatedExp, viaSentIn);
+            // Split the calculated EXP evenly across the party, but sent in mons receive twice as much as non-sent in mons
+            *exp = calculatedExp / (viaSentIn * 2 + viaExpShare) * 2;
             if (*exp == 0)
                 *exp = 1;
-            gExpShareExp = viaSentIn > 0 ? (*exp / 2) : (calculatedExp / 2); // If no sent in mon is alive, use base exp as reference
+            gExpShareExp = calculatedExp / (viaSentIn * 2 + viaExpShare);
             if (gExpShareExp == 0)
                 gExpShareExp = 1;
 
