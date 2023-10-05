@@ -5333,7 +5333,7 @@ static void Cmd_yesnoboxstoplearningmove(void)
         {
             PlaySE(SE_SELECT);
 
-            if (gBattleCommunication[1] != 0)
+            if (gBattleCommunication[1] == 0)
                 gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 1);
             else
                 gBattlescriptCurrInstr += 5;
@@ -5343,7 +5343,7 @@ static void Cmd_yesnoboxstoplearningmove(void)
         else if (JOY_NEW(B_BUTTON))
         {
             PlaySE(SE_SELECT);
-            gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 1);
+            gBattlescriptCurrInstr += 5;
             HandleBattleWindow(23, 8, 29, 13, WINDOW_CLEAR);
         }
         break;

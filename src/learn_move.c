@@ -51,8 +51,8 @@
  * MoveRelearnerStateMachine: MENU_STATE_PRINT_STOP_TEACHING
  * MoveRelearnerStateMachine: MENU_STATE_WAIT_FOR_STOP_TEACHING
  * MoveRelearnerStateMachine: MENU_STATE_CONFIRM_STOP_TEACHING
- *   - If the player confirms, go to MENU_STATE_CHOOSE_SETUP_STATE.
- *   - If the player cancels, go back to MENU_STATE_PRINT_TRYING_TO_LEARN_PROMPT.
+ *   - If the player cancels, go to MENU_STATE_CHOOSE_SETUP_STATE.
+ *   - If the player confirms, go back to MENU_STATE_PRINT_TRYING_TO_LEARN_PROMPT.
  * 
  * MoveRelearnerStateMachine: MENU_STATE_PRINT_WHICH_MOVE_PROMPT
  * MoveRelearnerStateMachine: MENU_STATE_SHOW_MOVE_SUMMARY_SCREEN
@@ -69,8 +69,8 @@
  * 
  * MoveRelearnerStateMachine: MENU_STATE_PRINT_GIVE_UP_PROMPT
  * MoveRelearnerStateMachine: MENU_STATE_GIVE_UP_CONFIRM
- *   - If the player confirms, go to MENU_STATE_FADE_AND_RETURN, and set VAR_0x8004 to FALSE.
- *   - If the player cancels, go to MENU_STATE_SETUP_BATTLE_MODE.
+ *   - If the player cancels, go to MENU_STATE_FADE_AND_RETURN, and set VAR_0x8004 to FALSE.
+ *   - If the player confirms, go to MENU_STATE_SETUP_BATTLE_MODE.
  * 
  * CB2_MoveRelearner_Resume:
  *   - Do most of the same stuff as CB2_MoveRelearner_Init.
@@ -538,13 +538,14 @@ static void MoveRelearnerStateMachine(void)
         switch (YesNoMenuProcessInput())
         {
         case 0:
-            gSpecialVar_0x8004 = FALSE;
-            sMoveRelearner->state = 14;
+            sMoveRelearner->state = 3;
             break;
         case 1:
         case -1:
-            sMoveRelearner->state = 3;
+            gSpecialVar_0x8004 = FALSE;
+            sMoveRelearner->state = 14;
             break;
+            
         }
         break;
     case MENU_STATE_PRINT_TRYING_TO_LEARN_PROMPT:
@@ -580,11 +581,11 @@ static void MoveRelearnerStateMachine(void)
         switch (YesNoMenuProcessInput())
         {
         case 0:
-            sMoveRelearner->state = 27;
+            sMoveRelearner->state = 16;
             break;
         case 1:
         case -1:
-            sMoveRelearner->state = 16;
+            sMoveRelearner->state = 27;
             break;
         }
         break;
