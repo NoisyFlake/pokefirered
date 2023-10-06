@@ -438,7 +438,7 @@ static u8 CopySaveSlotData(u16 sectorId, const struct SaveSectorLocation *locati
         if (id == 0)
             gLastWrittenSector = i;
 
-        checksum = CalculateChecksum(gSaveDataBufferPtr->data, locations[id].size);
+        checksum = CalculateChecksum(gSaveDataBufferPtr->data, SECTOR_DATA_SIZE);
         if (gSaveDataBufferPtr->signature == SECTOR_SIGNATURE && gSaveDataBufferPtr->checksum == checksum)
         {
             u16 j;
@@ -471,7 +471,7 @@ static u8 GetSaveValidStatus(const struct SaveSectorLocation *locations)
         if (gSaveDataBufferPtr->signature == SECTOR_SIGNATURE)
         {
             signatureValid = TRUE;
-            checksum = CalculateChecksum(gSaveDataBufferPtr->data, locations[gSaveDataBufferPtr->id].size);
+            checksum = CalculateChecksum(gSaveDataBufferPtr->data, SECTOR_DATA_SIZE);
             if (gSaveDataBufferPtr->checksum == checksum)
             {
                 slot1saveCounter = gSaveDataBufferPtr->counter;
@@ -499,7 +499,7 @@ static u8 GetSaveValidStatus(const struct SaveSectorLocation *locations)
         if (gSaveDataBufferPtr->signature == SECTOR_SIGNATURE)
         {
             signatureValid = TRUE;
-            checksum = CalculateChecksum(gSaveDataBufferPtr->data, locations[gSaveDataBufferPtr->id].size);
+            checksum = CalculateChecksum(gSaveDataBufferPtr->data, SECTOR_DATA_SIZE);
             if (gSaveDataBufferPtr->checksum == checksum)
             {
                 slot2saveCounter = gSaveDataBufferPtr->counter;
@@ -562,7 +562,7 @@ static u8 GetSaveValidStatus(const struct SaveSectorLocation *locations)
         gLastWrittenSector = 0;
         return SAVE_STATUS_EMPTY;
     }
-
+    
     gSaveCounter = 0;
     gLastWrittenSector = 0;
     return SAVE_STATUS_INVALID;
@@ -576,7 +576,7 @@ static u8 TryLoadSaveSector(u8 sectorId, u8 *data, u16 size)
     ReadFlashSector(sectorId, sector);
     if (sector->signature == SECTOR_SIGNATURE)
     {
-        u16 checksum = CalculateChecksum(sector->data, size);
+        u16 checksum = CalculateChecksum(sector->data, SECTOR_DATA_SIZE);
         if (sector->id == checksum)
         {
             for (i = 0; i < size; i++)
