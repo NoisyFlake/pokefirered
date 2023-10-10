@@ -3181,17 +3181,19 @@ static void Cmd_getexp(void)
 
             calculatedExp = gSpeciesInfo[gBattleMons[gBattlerFainted].species].expYield * gBattleMons[gBattlerFainted].level / 7;
 
-            // Split the calculated EXP evenly across the party, but sent in mons receive twice as much as non-sent in mons
-            if (viaExpShare) {
-                *exp = calculatedExp / (viaSentIn * 2 + viaExpShare) * 2;
+            if (viaExpShare) // at least one mon is getting exp via exp share
+            {
+                // Added x1.25 multiplicator because in most cases it will be split across 6 mons,
+                // which would result in not enough XP to complete the game without grind 
+                *exp = SAFE_DIV(calculatedExp * 1.25 / 2, viaSentIn);
                 if (*exp == 0)
                     *exp = 1;
 
-                gExpShareExp = calculatedExp / (viaSentIn * 2 + viaExpShare);
+                gExpShareExp = calculatedExp * 1.25 / 2 / viaExpShare;
                 if (gExpShareExp == 0)
                     gExpShareExp = 1;
-            } 
-            else 
+            }
+            else
             {
                 *exp = SAFE_DIV(calculatedExp, viaSentIn);
                 if (*exp == 0)
