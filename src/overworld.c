@@ -128,7 +128,6 @@ static void Overworld_SetWhiteoutRespawnPoint(void);
 static u8 GetAdjustedInitialTransitionFlags(struct InitialPlayerAvatarState *playerStruct, u16 metatileBehavior, u8 mapType);
 static u8 GetAdjustedInitialDirection(struct InitialPlayerAvatarState *playerStruct, u8 transitionFlags, u16 metatileBehavior, u8 mapType);
 static u16 GetCenterScreenMetatileBehavior(void);
-static bool8 CanLearnFlashInParty(void);
 static void SetDefaultFlashLevel(void);
 static void Overworld_TryMapConnectionMusicTransition(void);
 static void ChooseAmbientCrySpecies(void);
@@ -949,19 +948,6 @@ bool32 Overworld_IsBikingAllowed(void)
         return FALSE;
     else
         return TRUE;
-}
-
-static bool8 CanLearnFlashInParty(void)
-{
-    u8 i;
-    for (i = 0; i < PARTY_SIZE; i++)
-    {
-        if (!GetMonData(&gPlayerParty[i], MON_DATA_SPECIES, NULL))
-            break;
-        if (!GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG) && CanMonLearnTMHM(&gPlayerParty[i], ITEM_HM05 - ITEM_TM01))
-            return TRUE;
-    }
-    return FALSE;
 }
 
 static void SetDefaultFlashLevel(void)
@@ -1932,8 +1918,8 @@ static bool32 LoadMapInStepsLocal(u8 *state, bool32 inLink)
             (*state)++;
         break;
     case 14:
-        // Automatically execute flash if the player has the HM and a mon that can learn it
-        if (gSaveBlock1Ptr->flashLevel == gMaxFlashLevel && CheckBagHasItem(ITEM_HM05_FLASH, 1) && CanLearnFlashInParty()) {
+        // Automatically execute flash if the player has the HM
+        if (gSaveBlock1Ptr->flashLevel == gMaxFlashLevel && CheckBagHasItem(ITEM_HM05_FLASH, 1)) {
             PlaySE(SE_M_REFLECT);
             FlagSet(FLAG_SYS_FLASH_ACTIVE);
             AnimateFlash(0);

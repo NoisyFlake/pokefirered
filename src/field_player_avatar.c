@@ -1190,7 +1190,7 @@ bool8 PartyHasMonWithSurf(void)
         {
             if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES) == SPECIES_NONE)
                 break;
-            if (!GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG) && CanMonLearnTMHM(&gPlayerParty[i], ITEM_HM03 - ITEM_TM01))
+            if (!GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG))
                 return TRUE;
         }
     }

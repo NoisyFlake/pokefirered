@@ -9,8 +9,6 @@ EventScript_CutTree::
 	buffermovename STR_VAR_2, MOVE_CUT
 	msgbox Text_CutTreeDown, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_DontCutTree
-	msgbox Text_MonUsedMove
-	closemessage
 	dofieldeffect FLDEFF_USE_CUT_ON_TREE
 	waitstate
 	goto EventScript_CutTreeDown
@@ -49,9 +47,6 @@ Text_CutTreeDown::
 	.string "down!\p"
 	.string "Would you like to CUT it?$"
 
-Text_MonUsedMove::
-	.string "{STR_VAR_1} used {STR_VAR_2}!$"
-
 Text_TreeCanBeCutDown::
 	.string "This tree looks like it can be CUT\n"
 	.string "down!$"
@@ -67,8 +62,6 @@ EventScript_RockSmash::
 	buffermovename STR_VAR_2, MOVE_ROCK_SMASH
 	msgbox Text_UseRockSmash, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_DontSmashRock
-	msgbox Text_MonUsedMove
-	closemessage
 	dofieldeffect FLDEFF_USE_ROCK_SMASH
 	waitstate
 	goto EventScript_UseRockSmash
@@ -141,7 +134,6 @@ EventScript_FldEffStrength::
 
 EventScript_UseStrength::
 	setflag FLAG_SYS_USE_STRENGTH
-	msgbox Text_MonUsedStrengthCanMoveBoulders, MSGBOX_SIGN
 	end
 
 EventScript_CantMoveBoulder::
@@ -158,7 +150,7 @@ EventScript_DontUseStrength::
 	end
 
 Text_UseStrength::
-	.string "It's a big boulder, but a POKéMON\n"
+	.string "It's a big boulder, but an HM\n"
 	.string "may be able to push it aside.\p"
 	.string "Would you like to use STRENGTH?$"
 
@@ -168,7 +160,7 @@ Text_MonUsedStrengthCanMoveBoulders::
 	.string "possible to move boulders around!$"
 
 Text_MonMayPushBoulder::
-	.string "It's a big boulder, but a POKéMON\n"
+	.string "It's a big boulder, but an HM\n"
 	.string "may be able to push it aside.$"
 
 Text_StrengthMadeMovingBouldersPossible::
@@ -184,7 +176,6 @@ EventScript_Waterfall::
 	setfieldeffectargument 0, VAR_RESULT
 	msgbox Text_UseWaterfall, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_EndWaterfall
-	msgbox Text_MonUsedWaterfall
 	dofieldeffect FLDEFF_USE_WATERFALL
 	goto EventScript_EndWaterfall
 
@@ -203,9 +194,6 @@ Text_WallOfWaterCrashingDown::
 Text_UseWaterfall::
 	.string "It's a large waterfall.\n"
 	.string "Would you like to use WATERFALL?$"
-
-Text_MonUsedWaterfall::
-	.string "{STR_VAR_1} used WATERFALL.$"
 
 @ Unused leftover from R/S
 EventScript_DeepWater::

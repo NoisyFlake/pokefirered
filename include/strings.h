@@ -627,6 +627,7 @@ extern const u8 gText_MailReturnedToBagMessageErased[];
 
 // start_menu
 extern const u8 gText_MenuPokedex[];
+extern const u8 gText_MenuFly[];
 extern const u8 gText_MenuBag[];
 extern const u8 gText_MenuPlayer[];
 extern const u8 gText_MenuSave[];

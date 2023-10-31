@@ -36,11 +36,14 @@
 #include "help_system.h"
 #include "constants/songs.h"
 #include "constants/field_weather.h"
+#include "item.h"
+#include "region_map.h"
 
 enum StartMenuOption
 {
     STARTMENU_POKEDEX = 0,
     STARTMENU_POKEMON,
+    STARTMENU_FLY,
     STARTMENU_BAG,
     STARTMENU_PLAYER,
     STARTMENU_SAVE,
@@ -80,6 +83,8 @@ static void StartMenu_FadeScreenIfLeavingOverworld(void);
 static bool8 StartMenuPokedexSanityCheck(void);
 static bool8 StartMenuPokedexCallback(void);
 static bool8 StartMenuPokemonCallback(void);
+static bool8 StartMenuFlyCallback(void);
+static bool8 StartMenuFlyAwaitInputCallback(void);
 static bool8 StartMenuBagCallback(void);
 static bool8 StartMenuPlayerCallback(void);
 static bool8 StartMenuSaveCallback(void);
@@ -115,6 +120,7 @@ static void CloseStartMenu(void);
 static const struct MenuAction sStartMenuActionTable[] = {
     { gText_MenuPokedex, {.u8_void = StartMenuPokedexCallback} },
     { gText_MenuPokemon, {.u8_void = StartMenuPokemonCallback} },
+    { gText_MenuFly, {.u8_void = StartMenuFlyCallback} },
     { gText_MenuBag, {.u8_void = StartMenuBagCallback} },
     { gText_MenuPlayer, {.u8_void = StartMenuPlayerCallback} },
     { gText_MenuSave, {.u8_void = StartMenuSaveCallback} },
@@ -215,6 +221,8 @@ static void SetUpStartMenu_NormalField(void)
         AppendToStartMenuItems(STARTMENU_POKEDEX);
     if (FlagGet(FLAG_SYS_POKEMON_GET) == TRUE)
         AppendToStartMenuItems(STARTMENU_POKEMON);
+    if (CheckBagHasItem(ITEM_HM02_FLY, 1))
+        AppendToStartMenuItems(STARTMENU_FLY);
     AppendToStartMenuItems(STARTMENU_BAG);
     AppendToStartMenuItems(STARTMENU_PLAYER);
     AppendToStartMenuItems(STARTMENU_SAVE);
@@ -447,7 +455,8 @@ static void StartMenu_FadeScreenIfLeavingOverworld(void)
 {
     if (sStartMenuCallback != StartMenuSaveCallback
      && sStartMenuCallback != StartMenuExitCallback
-     && sStartMenuCallback != StartMenuSafariZoneRetireCallback)
+     && sStartMenuCallback != StartMenuSafariZoneRetireCallback
+     && sStartMenuCallback != StartMenuFlyCallback)
     {
         StopPokemonLeagueLightingEffectTask();
         FadeScreen(FADE_TO_BLACK, 0);
@@ -562,6 +571,33 @@ static bool8 StartMenuLinkPlayerCallback(void)
         return TRUE;
     }
     return FALSE;
+}
+
+static bool8 StartMenuFlyCallback(void) {
+    CloseStartMenu();
+
+    if (!FlagGet(FLAG_BADGE03_GET) || !Overworld_MapTypeAllowsTeleportAndFly(gMapHeader.mapType)) {
+        LockPlayerFieldControls();
+        LoadMessageBoxAndFrameGfx(0, TRUE);
+        AddTextPrinterParameterized2(0, FONT_NORMAL, FlagGet(FLAG_BADGE03_GET) ? gText_CantUseHere : gText_CantUseUntilNewBadge, GetTextSpeedSetting(), NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
+        sStartMenuCallback = StartMenuFlyAwaitInputCallback;
+        return FALSE;
+    }
+
+    CB2_OpenFlyMap();
+    return TRUE;
+}
+
+static bool8 StartMenuFlyAwaitInputCallback(void) {
+    RunTextPrinters();
+
+    if (JOY_NEW(A_BUTTON) || JOY_NEW(B_BUTTON)) {
+        ClearDialogWindowAndFrame(0, TRUE);
+        UnlockPlayerFieldControls();
+        return TRUE;
+    } else {
+        return FALSE;
+    }
 }
 
 static bool8 StartCB_Save1(void)

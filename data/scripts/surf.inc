@@ -7,7 +7,6 @@ EventScript_UseSurf::
 	lockall
 	msgbox Text_WantToSurf, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_UseSurfRelease
-	msgbox Text_UsedSurf
 	dofieldeffect FLDEFF_USE_SURF
 EventScript_UseSurfRelease:
 	releaseall
