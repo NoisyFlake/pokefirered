@@ -163,6 +163,7 @@ static void HandleInputChooseAction(void)
 {
     if (JOY_NEW(A_BUTTON))
     {
+        gBattleScripting.actionExecuted = TRUE;
         PlaySE(SE_SELECT);
 
         switch (gActionSelectionCursor[gActiveBattler])
@@ -182,8 +183,22 @@ static void HandleInputChooseAction(void)
         }
         SafariBufferExecCompleted();
     }
+    else if (JOY_NEW(B_BUTTON) && !gBattleScripting.actionExecuted) 
+    {
+        if (gActionSelectionCursor[gActiveBattler] == 3) 
+        {
+            BtlController_EmitTwoReturnValues(1, B_ACTION_SAFARI_RUN, 0);
+            SafariBufferExecCompleted();
+        } else {
+            PlaySE(SE_SELECT);
+            ActionSelectionDestroyCursorAt(gActionSelectionCursor[gActiveBattler]);
+            gActionSelectionCursor[gActiveBattler] = 3;
+            ActionSelectionCreateCursorAt(gActionSelectionCursor[gActiveBattler], 0);
+        }
+    }
     else if (JOY_NEW(DPAD_LEFT))
     {
+        gBattleScripting.actionExecuted = TRUE;
         if (gActionSelectionCursor[gActiveBattler] & 1)
         {
             PlaySE(SE_SELECT);
@@ -194,6 +209,7 @@ static void HandleInputChooseAction(void)
     }
     else if (JOY_NEW(DPAD_RIGHT))
     {
+        gBattleScripting.actionExecuted = TRUE;
         if (!(gActionSelectionCursor[gActiveBattler] & 1))
         {
             PlaySE(SE_SELECT);
@@ -204,6 +220,7 @@ static void HandleInputChooseAction(void)
     }
     else if (JOY_NEW(DPAD_UP))
     {
+        gBattleScripting.actionExecuted = TRUE;
         if (gActionSelectionCursor[gActiveBattler] & 2)
         {
             PlaySE(SE_SELECT);
@@ -214,6 +231,7 @@ static void HandleInputChooseAction(void)
     }
     else if (JOY_NEW(DPAD_DOWN))
     {
+        gBattleScripting.actionExecuted = TRUE;
         if (!(gActionSelectionCursor[gActiveBattler] & 2))
         {
             PlaySE(SE_SELECT);
