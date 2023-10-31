@@ -114,7 +114,7 @@ CeladonCity_GameCorner_PrizeRoom_EventScript_ConfirmPrizeMon::
 	case SPECIES_ABRA,     CeladonCity_GameCorner_PrizeRoom_EventScript_GiveAbra
 	case SPECIES_CLEFAIRY, CeladonCity_GameCorner_PrizeRoom_EventScript_GiveClefairy
 	case SPECIES_DRATINI,  CeladonCity_GameCorner_PrizeRoom_EventScript_GiveDratini
-	case SPECIES_EEVEE,  CeladonCity_GameCorner_PrizeRoom_EventScript_GiveEevee
+	case SPECIES_EEVEE,    CeladonCity_GameCorner_PrizeRoom_EventScript_GiveEevee
 	case SPECIES_PORYGON,  CeladonCity_GameCorner_PrizeRoom_EventScript_GivePorygon
 	case SPECIES_PINSIR,   CeladonCity_GameCorner_PrizeRoom_EventScript_GivePinsir
 	end
@@ -153,7 +153,7 @@ CeladonCity_GameCorner_PrizeRoom_EventScript_GiveDratini::
 	end
 
 CeladonCity_GameCorner_PrizeRoom_EventScript_GiveEevee::
-	givemon VAR_TEMP_1, 25
+	givemon VAR_TEMP_1, 5
 	goto CeladonCity_GameCorner_PrizeRoom_EventScript_CheckReceivedMon
 	end
 
